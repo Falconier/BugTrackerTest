@@ -1,0 +1,85 @@
+﻿@model IEnumerable<BugTrackerTest.Models.Ticket>
+@{
+    ViewBag.Title = "ManagedTickets";
+}
+
+<h2>Manage Tickets</h2>
+
+<div class="box-body">
+    
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Tickets</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Type</th>
+
+                        <th>Details</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mod in Model)
+                    {
+
+                        <tr>
+                            <td>@mod.Title</td>
+                            <td>
+                                @mod.Description
+                            </td>
+                            <td>
+                                @mod.TicketStatus.Name
+                            </td>
+                            <td>
+                                @if (mod.Priority.Name.Equals("High"))
+                                {<span class="label label-warning">@mod.Priority.Name</span>}
+                            else if (mod.Priority.Name.Equals("Medium"))
+                            { <span class="label label-primary">@mod.Priority.Name</span>}
+                        else if (mod.Priority.Name.Equals("Low"))
+                        { <span class="label label-success">@mod.Priority.Name</span>}
+                    else if (mod.Priority.Name.Equals("Urgent"))
+                    { <span class="label label-danger">@mod.Priority.Name</span>}
+                else
+                { @mod.Priority.Name}
+
+                            </td>
+                            <td>
+                                @mod.TicketType.Name
+                            </td>
+
+                            <td>@Html.ActionLink("Ticket Details", "Details", new { id = mod.Id })</td>
+                            <td>@Html.ActionLink("Edit Ticket", "Edit", new { id = mod.Id })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+}

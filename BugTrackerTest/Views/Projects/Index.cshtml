@@ -1,0 +1,100 @@
+﻿<!-- localhost:_____/Projects/Index -->
+@model IEnumerable<BugTrackerTest.Models.ProjectsViewModel>
+
+
+
+@*@foreach (var mod in Model.Projects)
+    {
+        <p>@mod.Name @mod.Description | @Html.ActionLink("Project Details", "Details", new { id = mod.Id }) | @Html.ActionLink("Edit Project", "Edit", new { id = mod.Id }) </p>
+    }*@
+
+
+<div class="box">
+    <!-- box header -->
+    <div class="box-header">
+        @if(User.IsInRole("Admin"))
+        {
+            <h3 class="box-title">
+                All Projects
+            </h3>
+        }
+        else
+        {
+            <h3 class="box-title">
+                My Projects
+            </h3>
+        }
+    </div>
+    <!-- /.box-header -->
+
+
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Manager</th>
+                    <th>Number of Tickets</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mod in Model)
+                {
+
+                    <tr>
+                        <td>@mod.Project.Name</td>
+                        <td>
+                            @mod.Project.Description
+                        </td>
+                        <td>
+                            @if (mod.PManager == null)
+                            {
+                                <!-- not working correctly -->
+                                <p>No Manager Assigned</p>
+                            }
+                            else
+                            {
+                                @mod.PManager.FullName
+                            }
+                        </td>
+                        <td>@mod.Project.Tickets.Count()</td>
+
+                        <td class="text-center">
+                            <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
+                                <i class="fa fa-info"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable(
+                {
+                    'paging': true,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': false,
+                'autoWidth': false
+            })
+        })
+    </script>
+}

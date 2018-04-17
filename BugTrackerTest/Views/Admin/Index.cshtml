@@ -1,0 +1,209 @@
+﻿<!-- localhost:_____/Admin/Index -->
+@model BugTrackerTest.Models.AdminIndexViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Admin Panel</h2>
+
+@*foreach (var mod in Model)
+    {
+        <p>@mod.User.FirstName @mod.User.LastName | @Html.ActionLink("Edit Roles", "EditUser", new { id = mod.User.Id })</p>
+        <ul>
+            @foreach (var role in mod.Roles)
+            {
+                <li>
+                    @role
+                </li>
+            }
+        </ul>
+    }
+*@
+
+<div class="box no-padding">
+    <div class="box-header">
+        <h3 class="box-title">System Users</h3>
+    </div>
+    <ul class="users-list clearfix">
+        @foreach (var mod in Model.Users)
+        {
+            <!-- insert if statement to sort pms, devs, and subs -->
+            <li>
+                <!-- <img src="dist/img/user1-128x128.jpg" alt="User Image"> -->
+                <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
+                <!-- <span class="users-list-date">@mod.Roles.FirstOrDefault()</span> -->
+            </li>
+        }
+        @*@foreach (var role in mod.Roles)
+            {
+                <li>
+                    <img src="dist/img/user1-128x128.jpg" alt="User Image">
+                    <a class="users-list-name" href="#">Alexander Pierce</a>
+                    <span class="users-list-date">Today</span>
+                </li>
+            }*@
+
+    </ul>
+    <!-- /.users-list -->
+</div>
+
+
+<div>
+
+    <div class="col-md-6">
+        <div>
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Projects</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+
+                                <th>Description</th>
+                                <th>Manager</th>
+
+                                <th>Details</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var mod in Model.PVModel)
+                            {
+
+                                <tr>
+                                    <td>@mod.Project.Name</td>
+
+                                    <td>
+                                        @mod.Project.Description
+                                    </td>
+                                    <td>
+                                        @if (mod.PManager == null)
+                                        {
+                                            <!-- not working correctly -->
+                                            <p>No Manager Assigned</p>
+                                        }
+                                        else
+                                        {
+                                            @mod.PManager.FullName
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Tickets</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Type</th>
+
+                                    <th>Details</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mod in Model.Tickets)
+                                {
+
+                                    <tr>
+                                        <td>@mod.Title</td>
+
+                                        <td>
+                                            @mod.TicketStatus.Name
+                                        </td>
+                                        <td>
+                                            @if (mod.Priority.Name.Equals("High"))
+                                            {<span class="label label-warning">@mod.Priority.Name</span>}
+                                        else if (mod.Priority.Name.Equals("Medium"))
+                                        { <span class="label label-primary">@mod.Priority.Name</span>}
+                                    else if (mod.Priority.Name.Equals("Low"))
+                                    { <span class="label label-success">@mod.Priority.Name</span>}
+                                else if (mod.Priority.Name.Equals("Urgent"))
+                                { <span class="label label-danger">@mod.Priority.Name</span>}
+                            else
+                            { @mod.Priority.Name}
+
+                                        </td>
+                                        <td>
+                                            @mod.TicketType.Name
+                                        </td>
+
+                                        <td class="text-center"><a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a></td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable(
+                {
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#example2').DataTable(
+                {
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+        })
+    </script>
+}
+<!-- /.box-body
+<div class="box-footer text-center">
+    <a href="javascript:void(0)" class="uppercase">View All Users</a>
+</div>
+    -->

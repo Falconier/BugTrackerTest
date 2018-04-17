@@ -1,0 +1,120 @@
+﻿<!-- localhost:_____/Projects/Details -->
+@*
+
+    -- add in a list of users on the project
+
+*@
+
+@model BugTrackerTest.Models.Project
+<div>
+    <div>
+        <section class="content-header"><h2>@Model.Name</h2></section>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+        </dl>
+        <p>
+            @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+        </p>
+    </div>
+
+
+
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Tickets</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Owner</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mod in Model.Tickets)
+                    {
+
+                        <tr>
+                            <td class="text-center">
+                                @if (mod.Priority.Name.Equals("High"))
+                                {<span class="label label-warning">@mod.Priority.Name</span>}
+                            else if (mod.Priority.Name.Equals("Medium"))
+                            { <span class="label label-primary">@mod.Priority.Name</span>}
+                        else if (mod.Priority.Name.Equals("Low"))
+                        { <span class="label label-success">@mod.Priority.Name</span>}
+                    else if (mod.Priority.Name.Equals("Urgent"))
+                    { <span class="label label-danger">@mod.Priority.Name</span>}
+                else
+                { @mod.Priority.Name}
+
+                            </td>
+                            <td>@mod.Title</td>
+                            <td>
+                                @mod.Description
+                            </td>
+                            <td>
+                                @mod.TicketStatus.Name
+                            </td>
+                            <td>
+                                @mod.TicketType.Name
+                            </td>
+                            <td>
+                                @if (mod.OwnerUser == null)
+                                {
+                                    <p>SEEDED</p>
+                                }
+                                else
+                                {
+                                    @mod.OwnerUser.FullName
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
+
+                                <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                {
+                                    <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+@Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+}

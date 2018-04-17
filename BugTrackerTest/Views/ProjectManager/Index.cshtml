@@ -1,0 +1,17 @@
+﻿<!-- localhost:_____/Project_Manager/Index -->
+@model IEnumerable<BugTrackerTest.Models.ProjectManagerUserViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var mod in Model)
+{
+    <p>@mod.Project.Name @mod.Project.Description | </p>
+
+    <!--<ul>
+        
+        Html.ActionLink("Edit Project", "EditProject", new { id = mod.Project.Id })
+    </ul>-->
+}

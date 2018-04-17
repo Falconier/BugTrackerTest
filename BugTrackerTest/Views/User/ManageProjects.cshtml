@@ -1,0 +1,143 @@
+﻿@model IEnumerable<BugTrackerTest.Models.Project>
+
+
+@{
+    ViewBag.Title = "Manage Projects";
+}
+
+<h2>ManageProjects</h2>
+
+
+<div class="box-body">
+    <div class="box">
+        <div class="box-header">
+            <h3 class=" box-title">Data Table With Full Features</h3>
+        </div>
+    </div>
+    <p> @Html.ActionLink("Create Project", "Create", "Projects", null, new { @class = "btn btn-success", @style = "float: center;" })</p>
+
+    <div class="box-body" ">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Details</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Projects", new { id = item.Id },null )" title="Details"><i class="fa fa-fw fa-info"></i></a>
+                        </td>
+                        <td>@Html.ActionLink("Edit Users", "EditUser", "Admin", new { id = item.Id })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+    <!-- /.box-body -->
+
+
+
+   @* <div>
+        <table class="table">
+            <tr>
+                <th>
+                    <h3>Project Name</h3>
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) | @Html.ActionLink("Edit Users", "EditUser", "Admin", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+@*<div>
+        <h4>Project</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Manager)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Manager)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Deleted)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Deleted)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+
+        </dl>
+    </div>*@
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+}
