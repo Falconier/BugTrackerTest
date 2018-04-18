@@ -16,6 +16,7 @@ namespace BugTrackerTest.Models
         public string LastName { get; set; }
 
         public string FullName { get; set; }
+        
         public virtual ICollection<TicketAttachment> Attachments { get; set; }
         public virtual ICollection<TicketComment> Comments { get; set; }
 
@@ -30,7 +31,7 @@ namespace BugTrackerTest.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
 
-            userIdentity.AddClaim(new Claim("Name", FullName));
+            userIdentity.AddClaim(new Claim("Name", FullName=(FirstName + " " + LastName)));
 
 
             return userIdentity;

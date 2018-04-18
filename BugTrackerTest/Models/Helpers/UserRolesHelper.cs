@@ -10,7 +10,7 @@ namespace BugTrackerTest.Models
     public class UserRolesHelper
     {
         private bool DEBUG = true;
-        private bool BEEP = false;
+        private bool BEEP = true;
 
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
@@ -48,6 +48,7 @@ namespace BugTrackerTest.Models
                 {
                     if (BEEP)
                         Console.Beep();
+                    Console.WriteLine("Exception Found:");
                     Console.WriteLine(ex);
                 }
                 return false;

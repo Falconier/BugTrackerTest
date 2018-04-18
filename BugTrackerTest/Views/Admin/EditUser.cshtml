@@ -3,14 +3,15 @@
     ViewBag.Title = "EditUser";
 }
 
-<h2>EditUser</h2>
-
+<section>
+    <h2>Edit @Model.User.FullName 's Roles</h2>
+</section>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.User.Id)
     @Html.ListBox("SelectedRoles", Model.Roles)
     <p>
-        <input type="submit" class="btn btn-info"/>
+        <input type="submit" class="btn btn-info" />
     </p>
 }

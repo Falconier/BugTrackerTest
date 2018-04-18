@@ -99,7 +99,7 @@
                             if (item.OwnerUser == null)
                             {
                                 <td>
-                                    <p>SEEDED</p>
+                                    <p class="text-danger">SEEDED</p>
                                 </td>
                             }
                             else
@@ -109,14 +109,17 @@
                                 </td>
                             }
                         }
-                        <td>
+                        <td class="text-center">
                             @if (item.AssignedToUserId == null)
                             {
-                                <p class="text-danger">Unassigned</p>
+                                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                {
+                                    <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">Assign Ticket</a>
+                                }
                             }
                             else
                             {
-                                @item.AssignedToUserId
+                                @item.AssignedToUser.FullName
                             }
                         </td>
                         <td class="text-center">

@@ -28,11 +28,11 @@ namespace BugTrackerTest.Controllers
                 vm.Users = usrHlp.ListAllUsers();
                 vm.Roles = usrHlp.ListUsersRoles(usr.Id);
                 vm.Tickets = tktHlp.ListAllTickets();
-                                               
+
                 //vm.Projects = prjHlp.ListAllProjects();
                 //Model.Add(vm);
             }
-            foreach(var prj in db.Projects.ToList())
+            foreach (var prj in db.Projects.ToList())
             {
                 var pvm = new ProjectsViewModel();
                 pvm.Project = prj;
@@ -48,12 +48,11 @@ namespace BugTrackerTest.Controllers
         {
             var user = db.Users.Find(id);
             AdminUserViewModel AdminModel = new AdminUserViewModel();
-            
+
             var selected = helper.ListUsersRoles(id);
             AdminModel.Roles = new MultiSelectList(db.Roles, "Name", "Name", selected);
             AdminModel.User = new ApplicationUser();
             AdminModel.User.Id = user.Id;
-            AdminModel.User = new ApplicationUser();
             AdminModel.User.FullName = user.FullName;
 
             return View(AdminModel);
@@ -61,17 +60,23 @@ namespace BugTrackerTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUser(AdminUserViewModel model)
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditUser([Bind(Include = "User,Roles,SelectedRoles")]AdminUserViewModel model)
         {
-            //var user = db.Users.Find(model.User.Id);
-            UserRolesHelper helper = new UserRolesHelper();
+            var user = db.Users.Find(model.User.Id);
             foreach (var rolermv in db.Roles.Select(r => r.Name).ToList())
             {
-                helper.RemoveUserFromRole(model.User.Id, rolermv);
+                if (helper.IsUserInRole(user.Id, rolermv))
+                {
+                    helper.RemoveUserFromRole(model.User.Id, rolermv);
+                }
             }
             foreach (var roleadd in model.SelectedRoles)
             {
-                helper.AddUserToRole(model.User.Id, roleadd);
+                if (!helper.IsUserInRole(user.Id, roleadd))
+                {
+                    helper.AddUserToRole(model.User.Id, roleadd);
+                }
             }
             return RedirectToAction("Index");
         }
