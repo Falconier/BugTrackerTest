@@ -6551,6 +6551,7 @@
     <Content Include="Assets\documentation\index.html" />
     <Content Include="Assets\documentation\style.css" />
     <Content Include="Assets\Gruntfile.js" />
+    <Content Include="Assets\Imgs\BugTrackerLandingPage.jpg" />
     <Content Include="Assets\index.html" />
     <Content Include="Assets\index2.html" />
     <Content Include="Assets\pages\calendar.html" />
@@ -7390,12 +7391,12 @@
     <Content Include="Views\Tickets\AllTickets.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
+    <Content Include="Views\Home\JEBBugtracker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\bower_components\bootstrap-datepicker\grunt\" />
     <Folder Include="Assets\build\grunt\" />
-    <Folder Include="Assets\Imgs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

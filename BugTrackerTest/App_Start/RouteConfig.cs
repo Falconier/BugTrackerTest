@@ -19,5 +19,7 @@ namespace BugTrackerTest
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
+
+
     }
 }
