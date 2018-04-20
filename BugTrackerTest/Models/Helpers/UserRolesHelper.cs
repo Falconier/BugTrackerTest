@@ -10,7 +10,7 @@ namespace BugTrackerTest.Models
     public class UserRolesHelper
     {
         private bool DEBUG = true;
-        private bool BEEP = true;
+        private bool BEEP = false;
 
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 

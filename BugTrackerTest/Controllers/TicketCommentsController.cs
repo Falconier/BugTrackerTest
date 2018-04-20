@@ -10,11 +10,13 @@ using BugTrackerTest.Models;
 
 namespace BugTrackerTest.Controllers
 {
+    [AllowAnonymous]
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketComments
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             var ticketComments = db.TicketComments.Include(t => t.Ticket);

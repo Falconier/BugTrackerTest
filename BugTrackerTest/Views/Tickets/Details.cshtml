@@ -6,6 +6,58 @@
     <div class=" box-header">
         <h3>@Model.ticket.Title</h3>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="padding-left:15px;">
+                <div class="col-md-4">
+                    <b>Priority: </b>@if (Model.ticket.Priority.Name.Equals("Urgent"))
+                    {
+                        <p class="text-bold text-danger">@Model.ticket.Priority.Name</p>
+                    }
+                    else if (Model.ticket.Priority.Name.Equals("High"))
+                    {
+                        <p class="text-bold text-warning">@Model.ticket.Priority.Name</p>
+                    }
+                    else
+                    {
+                        <p>@Model.ticket.Priority.Name</p>
+                    }
+                    <b>Status: </b><p>@Model.ticket.TicketStatus.Name</p>
+                </div>
+                <div class="col-md-4">
+                    <b>Associated Project: </b><p>@Model.ticket.Project.Name</p>
+                    <b>Assigned To: </b>@if (Model.ticket.AssignedToUser == null)
+                    {
+                        <p class="text-bold text-danger">Unassigned</p>
+                    }
+                    else
+                    {
+                        <p>@Model.ticket.AssignedToUser.FullName</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <b>Ticket Owner: </b>
+                    @if (Model.ticket.OwnerUser == null)
+                    {
+                        <p class="text-bold text-danger">SEEDED</p>
+                    }
+                    else
+                    {
+                        <p>@Model.ticket.OwnerUser.FullName</p>
+                    }
+                    <b>Created On: </b>
+                    @if (Model.ticket.OwnerUser == null)
+                    {
+                        <p class="text-bold text-danger">SEEDED</p>
+                    }
+                    else
+                    {
+                        <b>Created On: </b><p>@Model.ticket.Created.ToString("ddd, dd MMM yyy HH:mm")</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-6">
@@ -16,22 +68,23 @@
 
             @Html.HiddenFor(model => model.Comment.TicketId)
 
-            @Html.TextAreaFor(model => model.Comment.Body, new { @class = "form-control", rows = 12 })
+            @Html.TextAreaFor(model => model.Comment.Body, new { @class = "form-control", rows = 12, @id = "cbody" })
 
-            <button type="submit">Add Comment</button>
+
+            <button type="submit" class="btn btn-success" style="margin-top:15px; margin-bottom:15px;">Add Comment</button>
         }
 
         @foreach (var comment in Model.ticket.Comments.OrderByDescending(c => c.Created))
         {
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <p>Created by: @comment.User.FirstName</p>
-                            <p>Date: @comment.Created</p>
+                            <b>Created by: </b><p>@comment.User.FirstName</p>
+                            <b>Date: </b><p>@comment.Created.ToString("ddd, dd MMM yyy HH:mm")</p>
                         </div>
                         <div class="panel-body">
-                            @comment.Body
+                            @Html.Raw(comment.Body)
                         </div>
                     </div>
                 </div>
@@ -43,7 +96,7 @@
         <div class="row">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">History and Changes</h3>
+                    <h3 class="box-title col-md-6">History and Changes</h3><h3 class="col-md-4"></h3><h3 class="outline outline-primary">Test</h3>
                 </div>
                 <div class="box-body">
                     @if (Model.ticket.Histories.ToList().Count != 0)
@@ -51,26 +104,26 @@
                         <table id="header" class=" table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <td>
+                                    <td class="text-bold">
                                         Property
                                     </td>
-                                    <td>
+                                    <td class="text-bold">
                                         Old Value
                                     </td>
-                                    <td>
+                                    <td class="text-bold">
                                         New Value
                                     </td>
-                                    <td>
+                                    <td class="text-bold">
                                         Changed On..
                                     </td>
-                                    <td>
+                                    <td class="text-bold">
                                         Changed By..
                                     </td>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach (var history in Model.ticket.Histories)
+                                @foreach (var history in Model.ticket.Histories.Take(5))
                                 {
                                     <tr>
                                         <td>
@@ -83,7 +136,7 @@
                                             @history.NewVal
                                         </td>
                                         <td>
-                                            @history.Changed
+                                            @history.Changed.ToString("ddd, dd MMM yy HH:mm")
                                         </td>
                                         <td>
                                             @history.User.FirstName
@@ -102,3 +155,15 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            tinymce.init({
+                selector: '#cbody'
+            })
+        })
+    </script>
+}

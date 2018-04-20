@@ -28,7 +28,7 @@
         <h3 class="box-title">System Users</h3>
     </div>
     <ul class="users-list clearfix">
-        @foreach (var mod in Model.Users)
+        @foreach (var mod in Model.Users.Take(8))
         {
             <!-- insert if statement to sort pms, devs, and subs -->
             <li>
@@ -39,7 +39,7 @@
                 }
                 else
                 {
-                <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
+                    <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
                 }
                 <!-- <span class="users-list-date">mod.Roles.FirstOrDefault()</span> -->
             </li>
@@ -190,8 +190,9 @@
         $(function () {
             $('#example1').DataTable(
                 {
-                    'paging': true,
+                    'paging': false,
                     'lengthChange': false,
+                    'pageLength': 10,
                     'searching': true,
                     'ordering': true,
                     'info': false,
@@ -199,8 +200,9 @@
                 })
             $('#example2').DataTable(
                 {
-                    'paging': true,
+                    'paging': false,
                     'lengthChange': false,
+                    'pageLength': 10,
                     'searching': true,
                     'ordering': true,
                     'info': false,
