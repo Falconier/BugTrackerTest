@@ -17,21 +17,22 @@ namespace BugTrackerTest.Controllers
         //[Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            if(!User.IsInRole("Admin"))
+            if (!User.IsInRole("Admin"))
             {
                 if (User.IsInRole("Project Manager"))
                 {
-                    RedirectToAction("PMDashboard", "Home");
+                    return RedirectToAction("PMDashboard", "Home");
                 }
-                else if(User.IsInRole("Developer"))
+                else if (User.IsInRole("Developer"))
                 {
-                    RedirectToAction("DevDashboard", "Home");
+                    return RedirectToAction("DevDashboard", "Home");
                 }
-                else if( User.IsInRole("Submitter"))
+                else if (User.IsInRole("Submitter"))
                 {
-                    RedirectToAction("SubDashboard", "Home");
-                } 
+                    return RedirectToAction("SubDashboard", "Home");
+                }
             }
+
             //List<AdminIndexViewModel> model = new List<AdminIndexViewModel>();
             UserRolesHelper usrHlp = new UserRolesHelper();
             AdminIndexViewModel vm = new AdminIndexViewModel();
@@ -57,6 +58,7 @@ namespace BugTrackerTest.Controllers
             }
             vm.PVModel = pvmList;
             return View(vm);
+
         }
 
         [Authorize(Roles = "Admin")]

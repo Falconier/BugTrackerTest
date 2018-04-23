@@ -503,6 +503,25 @@ namespace BugTrackerTest.Controllers
             {
                 return Redirect(returnUrl);
             }
+            //else
+            //{
+            //    if (User.IsInRole("Admin"))
+            //    {
+            //        return RedirectToAction("Index", "Admin");
+            //    }
+            //    else if (User.IsInRole("Project Manager"))
+            //    {
+            //        return RedirectToAction("PMDashboard", "Home");
+            //    }
+            //    else if (User.IsInRole("Developer"))
+            //    {
+            //        return RedirectToAction("DevDashboard", "Home");
+            //    }
+            //    else if (User.IsInRole("Submitter"))
+            //    {
+            //        return RedirectToAction("SubDashboard", "Home");
+            //    }
+            //}
             return RedirectToAction("Index", "Admin");
         }
 
