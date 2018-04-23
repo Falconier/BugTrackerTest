@@ -503,7 +503,7 @@ namespace BugTrackerTest.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

@@ -1,20 +1,11 @@
-﻿@using Microsoft.AspNet.Identity;
-
-@{
-    ViewBag.Title = "Home Page";
+﻿@{ 
+    Layout = null;
 }
 
-
-@{if (User.IsInRole("Project Manager"))
-    {
-        <button><a href="@Url.Action("ManageProjects", "User", new { userId = User.Identity.GetUserId() })">Projects</a></button>
-    }
-    if (User.IsInRole("Admin"))
-    {
-        <button><a href="@Url.Action("ManageProjects", "User", new { userId = User.Identity.GetUserId() })">Projects</a></button>
-    }
-    if (User.IsInRole("Submitter"))
-    {
-        <button><a href="@Url.Action("ManageTickets", "User", new { userId = User.Identity.GetUserId() })">Tickets</a></button>
-    }
-}
+<head>
+    <link href="~/Assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/dist/css/AlterAccess.css" rel="stylesheet" />
+</head>
+<div id="wrapper">
+    <img src="~/Assets/Imgs/BugTrackerLandingPage.jpg"/>
+</div>

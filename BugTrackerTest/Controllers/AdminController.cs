@@ -14,9 +14,24 @@ namespace BugTrackerTest.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper helper = new UserRolesHelper();
         // GET: Admin
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
+            if(!User.IsInRole("Admin"))
+            {
+                if (User.IsInRole("Project Manager"))
+                {
+                    RedirectToAction("PMDashboard", "Home");
+                }
+                else if(User.IsInRole("Developer"))
+                {
+                    RedirectToAction("DevDashboard", "Home");
+                }
+                else if( User.IsInRole("Submitter"))
+                {
+                    RedirectToAction("SubDashboard", "Home");
+                } 
+            }
             //List<AdminIndexViewModel> model = new List<AdminIndexViewModel>();
             UserRolesHelper usrHlp = new UserRolesHelper();
             AdminIndexViewModel vm = new AdminIndexViewModel();
@@ -44,6 +59,7 @@ namespace BugTrackerTest.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult EditUser(string id)
         {
             var user = db.Users.Find(id);

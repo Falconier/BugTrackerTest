@@ -24,6 +24,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: TicketComments/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,6 +40,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: TicketComments/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
@@ -50,6 +52,7 @@ namespace BugTrackerTest.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Body,Created,TicketId,UserId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
@@ -64,6 +67,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: TicketComments/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -84,6 +88,7 @@ namespace BugTrackerTest.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Body,Created,TicketId,UserId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
@@ -97,6 +102,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: TicketComments/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -114,6 +120,7 @@ namespace BugTrackerTest.Controllers
         // POST: TicketComments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             TicketComment ticketComment = db.TicketComments.Find(id);
@@ -121,7 +128,7 @@ namespace BugTrackerTest.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

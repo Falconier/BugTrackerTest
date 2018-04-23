@@ -76,3 +76,21 @@
     line-height: 1.5;
     border-radius: 3px;
 }
+#wrapper {
+    max-width: 600px; /* so this will scale down when the screen resizes */
+    margin: 0 auto;
+    overflow: hidden; /* so that the children are cropped */
+    border: solid 1px #000; /* you can remove this, I'm only using it to demonstrate the bounding box */
+}
+
+    #wrapper .slides_container {
+        width: 600px; /* static width here */
+        position: relative; /* so we can position it relative to its parent */
+        left: 50%; /* centering the box */
+        margin-left: -300px; /* centering the box */
+    }
+
+    #wrapper img {
+        display: block; /* this allows us to use the centering margin trick */
+        margin: 2px auto; /* the top/bottom margin isn't necessary here, but the left/right is */
+    }
