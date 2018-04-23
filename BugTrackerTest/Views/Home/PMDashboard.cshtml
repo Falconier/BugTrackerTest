@@ -3,67 +3,14 @@
 <title>JEBBugTracker | Dashboard</title>
 <h2>Dashboard</h2>
 
-@*foreach (var mod in Model)
-    {
-        <p>@mod.User.FirstName @mod.User.LastName | @Html.ActionLink("Edit Roles", "EditUser", new { id = mod.User.Id })</p>
-        <ul>
-            @foreach (var role in mod.Roles)
-            {
-                <li>
-                    @role
-                </li>
-            }
-        </ul>
-    }
-*@
-@*
-{
-    <div class="box no-padding">
-        <div class="box-header">
-            <h3 class="box-title">System Users</h3>
-        </div>
-        <ul class="users-list clearfix">
-            @foreach (var mod in Model.Users.Take(8))
-            {
-                <!-- insert if statement to sort pms, devs, and subs -->
-                <li>
-                    <!-- <img src="dist/img/user1-128x128.jpg" alt="User Image"> -->
-                    @if (mod.Email == "admin@email.com" || mod.Email == "jbullin.engstudio@icloud.com")
-                    {
-                        <p class="text-black">-@mod.FullName-</p>
-                    }
-                    else
-                    {
-                        <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
-                    }
-                    <!-- <span class="users-list-date">mod.Roles.FirstOrDefault()</span> -->
-                </li>
-            }
-            @foreach (var role in mod.Roles)
-                {
-                    <li>
-                        <img src="dist/img/user1-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Alexander Pierce</a>
-                        <span class="users-list-date">Today</span>
-                    </li>
-                }
-
-        </ul>
-        <!-- /.users-list -->
-    </div>
-}*@
-
 <div>
 
     <div class="col-md-6">
         <div>
             <div class="box no-padding">
                 <div class="box-header">
-                    @if (User.IsInRole("Project Manager"))
-                    {
                         <h3 class=" box-title">My Projecs</h3>
                     }
-                    <h3 class="box-title">Projects</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -71,12 +18,8 @@
                         <thead>
                             <tr>
                                 <th>Project Name</th>
-
                                 <th>Description</th>
-                                <th>Manager</th>
-
                                 <th>Details</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -89,18 +32,6 @@
                                     <td>
                                         @mod.Project.Description
                                     </td>
-                                    <td>
-                                        @if (mod.PManager == null)
-                                        {
-                                            <!-- not working correctly -->
-                                            <p>No Manager Assigned</p>
-                                        }
-                                        else
-                                        {
-                                            @mod.PManager.FullName
-                                        }
-                                    </td>
-
                                     <td class="text-center">
                                         <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
                                             <i class="fa fa-info"></i>
@@ -133,7 +64,7 @@
                                 <tr>
                                     <th>Priority</th>
                                     <th>Title</th>
-
+                                    <th>Project</th>
                                     <th>Status</th>
                                     <th>Type</th>
 
@@ -159,8 +90,12 @@
                             { @mod.Priority.Name}
 
                                         </td>
-                                        <td>@mod.Title</td>
-
+                                        <td>
+                                            @mod.Title
+                                        </td>
+                                        <td>
+                                            @mod.Project
+                                        </td>
                                         <td>
                                             @mod.TicketStatus.Name
                                         </td>
