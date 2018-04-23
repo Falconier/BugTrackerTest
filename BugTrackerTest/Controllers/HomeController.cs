@@ -20,7 +20,7 @@ namespace BugTrackerTest.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Proect Manager")]
+        [Authorize(Roles = "Project Manager")]
         public ActionResult PMDashboard()
         {
 

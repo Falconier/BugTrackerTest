@@ -45,7 +45,8 @@ namespace BugTrackerTest.Models
 
         public ICollection<Project> ListUserProjects(string userId)
         {
-            return db.Users.Find(userId).Projects.ToList();
+            return db.Projects.Where(m => m.Manager == userId).ToList();
+            //return db.Projects.Where(m => m.Manager.Equals(userId));
         }
 
         public ICollection<ApplicationUser> ListUsersNotInProject(int projectId)

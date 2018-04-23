@@ -13,6 +13,11 @@ namespace BugTrackerTest.Models.ViewModels
 
         public ICollection<Project> Projects { get; set; }
 
-        
+        public ProjectManagerViewModel()
+        {
+            TeamMembers = new List<ApplicationUser>();
+            Tickets = new List<Ticket>();
+            Projects = new List<Project>();
+        }
     }
 }

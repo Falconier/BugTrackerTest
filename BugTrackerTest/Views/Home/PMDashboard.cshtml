@@ -1,152 +1,163 @@
 ﻿<!-- localhost:_____/Admin/Index -->
-@model BugTrackerTest.Models.AdminIndexViewModel
+@model BugTrackerTest.Models.ViewModels.ProjectManagerViewModel
 <title>JEBBugTracker | Dashboard</title>
 <h2>Dashboard</h2>
 
 <div>
-
-    <div class="col-md-6">
-        <div>
-            <div class="box no-padding">
-                <div class="box-header">
-                        <h3 class=" box-title">My Projecs</h3>
-                    }
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Description</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var mod in Model.PVModel)
-                            {
-
-                                <tr>
-                                    <td>@mod.Project.Name</td>
-
-                                    <td>
-                                        @mod.Project.Description
-                                    </td>
-                                    <td class="text-center">
-                                        <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
-                                            <i class="fa fa-info"></i>
-                                        </a>
-                                    </td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.box-body -->
-            </div>
-        </div>
-    </div>
-
-
     <div class="row">
         <div class="col-md-6">
-
             <div>
                 <div class="box no-padding">
                     <div class="box-header">
-                        <h3 class="box-title">Tickets</h3>
+                        <h3 class=" box-title">My Projects</h3>   
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example2" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Priority</th>
-                                    <th>Title</th>
-                                    <th>Project</th>
-                                    <th>Status</th>
-                                    <th>Type</th>
-
-                                    <th>Details</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var mod in Model.Tickets)
-                                {
-
+                        @if (Model.Projects != null)
+                        {
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            @if (mod.Priority.Name.Equals("High"))
-                                            {<span class="label label-warning">@mod.Priority.Name</span>}
-                                        else if (mod.Priority.Name.Equals("Medium"))
-                                        { <span class="label label-primary">@mod.Priority.Name</span>}
-                                    else if (mod.Priority.Name.Equals("Low"))
-                                    { <span class="label label-success">@mod.Priority.Name</span>}
-                                else if (mod.Priority.Name.Equals("Urgent"))
-                                { <span class="label label-danger">@mod.Priority.Name</span>}
-                            else
-                            { @mod.Priority.Name}
-
-                                        </td>
-                                        <td>
-                                            @mod.Title
-                                        </td>
-                                        <td>
-                                            @mod.Project
-                                        </td>
-                                        <td>
-                                            @mod.TicketStatus.Name
-                                        </td>
-                                        <td>
-                                            @mod.TicketType.Name
-                                        </td>
-
-                                        <td class="text-center"><a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a></td>
-
+                                        <th>Project Name</th>
+                                        <th>Description</th>
+                                        <th>Details</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var mod in Model.Projects)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @mod.Name
+                                            </td>
+                                            <td>
+                                                @mod.Description
+                                            </td>
+                                            <td class="text-center">
+                                                <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Id })">
+                                                    <i class="fa fa-info"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p class="text-center text-bold text-black">You are not assigned to any projects.</p>
+                        }
                     </div>
                     <!-- /.box-body -->
                 </div>
             </div>
+
+
+
+            <div class="col-md-6">
+
+                <div>
+                    <div class="box no-padding">
+                        <div class="box-header">
+                            <h3 class="box-title">Tickets</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @if (Model.Projects != null)
+                            {
+                                <table id="example2" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Priority</th>
+                                            <th>Title</th>
+                                            <th>Project</th>
+                                            <th>Status</th>
+                                            <th>Type</th>
+
+                                            <th>Details</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var mod in Model.Tickets)
+                                        {
+
+                                            <tr>
+                                                <td>
+                                                    @if (mod.Priority.Name.Equals("High"))
+                                                    {<span class="label label-warning">@mod.Priority.Name</span>}
+                                                else if (mod.Priority.Name.Equals("Medium"))
+                                                { <span class="label label-primary">@mod.Priority.Name</span>}
+                                            else if (mod.Priority.Name.Equals("Low"))
+                                            { <span class="label label-success">@mod.Priority.Name</span>}
+                                        else if (mod.Priority.Name.Equals("Urgent"))
+                                        { <span class="label label-danger">@mod.Priority.Name</span>}
+                                    else
+                                    { @mod.Priority.Name}
+
+                                                </td>
+                                                <td>
+                                                    @mod.Title
+                                                </td>
+                                                <td>
+                                                    @mod.Project
+                                                </td>
+                                                <td>
+                                                    @mod.TicketStatus.Name
+                                                </td>
+                                                <td>
+                                                    @mod.TicketType.Name
+                                                </td>
+
+                                                <td class="text-center"><a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a></td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p class="text-center text-bold text-black">No ticket information avalible.</p>
+                            }
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
-
 </div>
+    @section Scripts{
 
-@section Scripts{
-
-    <script>
-        $(function () {
-            $('#example1').DataTable(
-                {
-                    'paging': false,
-                    'lengthChange': false,
-                    'pageLength': 10,
-                    'searching': true,
-                    'ordering': true,
-                    'info': false,
-                    'autoWidth': true
-                })
-            $('#example2').DataTable(
-                {
-                    'paging': false,
-                    'lengthChange': false,
-                    'pageLength': 10,
-                    'searching': true,
-                    'ordering': true,
-                    'info': false,
-                    'autoWidth': true
-                })
-        })
-    </script>
-}
-<!-- /.box-body
-<div class="box-footer text-center">
-    <a href="javascript:void(0)" class="uppercase">View All Users</a>
-</div>
-    -->
+        <script>
+            $(function () {
+                $('#example1').DataTable(
+                    {
+                        'paging': false,
+                        'lengthChange': false,
+                        'pageLength': 10,
+                        'searching': true,
+                        'ordering': true,
+                        'info': false,
+                        'autoWidth': true
+                    })
+                $('#example2').DataTable(
+                    {
+                        'paging': false,
+                        'lengthChange': false,
+                        'pageLength': 10,
+                        'searching': true,
+                        'ordering': true,
+                        'info': false,
+                        'autoWidth': true
+                    })
+            })
+        </script>
+    }
+    <!-- /.box-body
+    <div class="box-footer text-center">
+        <a href="javascript:void(0)" class="uppercase">View All Users</a>
+    </div>
+        -->
