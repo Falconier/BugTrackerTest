@@ -27,12 +27,13 @@
     <div class="box-header">
         <h3 class="box-title">System Users</h3>
     </div>
+    @*
     <ul class="users-list clearfix">
-        @foreach (var mod in Model.Users.Take(8))
+        @foreach (var mod in Model.Users)
         {
-            <!-- insert if statement to sort pms, devs, and subs -->
+            
             <li>
-                <!-- <img src="dist/img/user1-128x128.jpg" alt="User Image"> -->
+                
                 @if (mod.Email == "admin@email.com" || mod.Email == "jbullin.engstudio@icloud.com")
                 {
                     <p class="text-black">-@mod.FullName-</p>
@@ -41,20 +42,23 @@
                 {
                     <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
                 }
-                <!-- <span class="users-list-date">mod.Roles.FirstOrDefault()</span> -->
+                
             </li>
         }
-        @*@foreach (var role in mod.Roles)
+        @foreach (var role in mod.Roles)
             {
                 <li>
                     <img src="dist/img/user1-128x128.jpg" alt="User Image">
                     <a class="users-list-name" href="#">Alexander Pierce</a>
                     <span class="users-list-date">Today</span>
                 </li>
-            }*@
+            }
 
     </ul>
     <!-- /.users-list -->
+    *@
+
+    <table id="userTable" class="table table-bordered table-striped"></table>
 </div>
 
 

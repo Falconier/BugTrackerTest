@@ -51,6 +51,21 @@ namespace BugTrackerTest.Controllers
             return View(pvm);
         }
 
+        public ActionResult AllProjects()
+        {
+            List<ProjectsViewModel> pvm = new List<ProjectsViewModel>();
+            foreach (var prj in db.Projects.ToList())
+            {
+                var vm = new ProjectsViewModel();
+                vm.Project = prj;
+
+                vm.PManager = db.Users.Find(prj.Manager);
+
+                pvm.Add(vm);
+            }
+            return View(pvm);
+        }
+
         // GET: Projects/Details/5
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Details(int? id)

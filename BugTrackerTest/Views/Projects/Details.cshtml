@@ -7,32 +7,53 @@
 
 @model BugTrackerTest.Models.Project
 <div>
-    <div>
-        <section class="content-header"><h2>@Model.Name</h2></section>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-
-        </dl>
-        <p>
-            @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
-        </p>
-    </div>
-
-
-
-
-    <div class="box">
+    <div class="box no-padding">
         <div class="box-header">
-            <h3 class="box-title">Tickets</h3>
+            <h3>@Model.Name</h3>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div style=" padding-left:15px;">
+                    <div class="col-md-4">
+                        <b>Created On: </b>
+                        <p>@Model.Created.ToString("ddd, dd MMM yyy HH:mm")</p>
+                        <b>Number of Tickets: </b>
+                        @if (Model.Tickets.Count == 0)
+                        {
+                            <p class="text-warning">No Tickets</p>
+                        }
+                        else
+                        {
+                            <p>@Model.Tickets.Count</p>
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <b>Description: </b>
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <p style="padding-bottom:30px;">
+        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right; " })
+    </p>
+</div>
+
+
+
+
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Tickets</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (Model.Tickets.Count != 0)
+        {
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -96,11 +117,15 @@
                     }
                 </tbody>
             </table>
-        </div>
-        <!-- /.box-body -->
+        }
+        else
+        {
+            <p class="text-center text-bold text-black">No Tickets Associated With Project</p>
+        }
+        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
     </div>
+    <!-- /.box-body -->
 </div>
-@Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
 
 @section Scripts{
 
