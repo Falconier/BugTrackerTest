@@ -58,7 +58,19 @@
     <!-- /.users-list -->
     *@
 
-    <table id="userTable" class="table table-bordered table-striped"></table>
+    <table id="userTable" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                Users
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in Model.Users)
+            {
+                
+            }
+        </tbody>
+    </table>
 </div>
 
 

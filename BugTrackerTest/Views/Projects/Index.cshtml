@@ -12,17 +12,22 @@
 <div class="box">
     <!-- box header -->
     <div class="box-header">
-        @if(User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin"))
         {
             <h3 class="box-title">
                 All Projects
             </h3>
+            @Html.ActionLink("Create Project", "Create", "Projects", new { @class = "btn btn-success", @style = "float: right; " })
         }
         else
         {
             <h3 class="box-title">
                 My Projects
             </h3>
+            if (User.IsInRole("Project Manager"))
+            {
+                Html.ActionLink("Create Project", "Create", "Projects", new { @class = "btn btn-success", @style = "float: right; " });
+            }
         }
     </div>
     <!-- /.box-header -->
@@ -46,7 +51,7 @@
                     <tr>
                         <td>@mod.Project.Name</td>
                         <td>
-                            @mod.Project.Description
+                            @Html.Raw(mod.Project.Description)
                         </td>
                         <td>
                             @if (mod.PManager == null)

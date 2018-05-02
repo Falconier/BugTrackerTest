@@ -1,0 +1,110 @@
+﻿<!-- localhost:____/Tickets/UrgentTickets -->
+
+@model IEnumerable<BugTrackerTest.Models.Ticket>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">
+            All Tickets
+        </h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- Admin and PM and Dev Table -->
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Priority</th>
+                    <th>Title</th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Owner</th>
+                    <th>Assigned To..</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                { 
+                    <tr>
+                        <td class="text-center">
+                                <span class="label label-danger">@item.Priority.Name</span>
+                        </td> 
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @item.Project.Name
+                        </td>
+                        <td>
+                            @item.TicketStatus.Name
+                        </td>
+                        <td>
+                            @item.TicketType.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.Created.ToString("MM/dd/yyyy")
+                        </td>
+                        <td>
+                            @item.Updated
+                        </td>
+                        <td>
+                            @if (item.OwnerUser == null)
+                            {
+                                <p class="text-danger">SEEDED</p>
+                            }
+                            else
+                            {
+                                @item.OwnerUser.FullName
+                            }
+                        </td>
+                        <td>
+                            @if (item.AssignedToUserId == null)
+                            {
+                                <p class="text-danger">Unassigned</p>
+                            }
+                            else
+                            {
+                                @item.AssignedToUser.FullName
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable(
+                {
+                    'paging': true,
+                    'pageLength': 50,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': false,
+                'autoWidth': false
+
+            })
+        })
+    </script>
+}

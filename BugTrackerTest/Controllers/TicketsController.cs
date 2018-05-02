@@ -34,6 +34,12 @@ namespace BugTrackerTest.Controllers
             return View(tickets.ToList());
         }
 
+        public ActionResult UrgentTickets()
+        {
+            var tickets = db.Tickets.Include(t => t.Project).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(t => t.Priority.Name.Equals("Urgent"));
+            return View(tickets.ToList());
+        }
+
         // GET: Tickets/Details/5
         /// <summary>
         /// Gives a detailed view of a ticket

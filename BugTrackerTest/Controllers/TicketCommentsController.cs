@@ -40,7 +40,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: TicketComments/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Submitter, Admin, Project Manager ")]
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
