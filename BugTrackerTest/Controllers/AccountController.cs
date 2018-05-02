@@ -108,31 +108,31 @@ namespace BugTrackerTest.Controllers
             switch (type)
             {
                 case "Admin":
-                    Email = "shanamcclain7@gmail.com";
-                    Password = "Mcclain!1";
+                    Email = "demoadmin@email.com";
+                    Password = "eJ0X-a7U2";
                     break;
                 case "ProjectManager":
-                    Email = "manager@email.com";
-                    Password = "Mcclain1!";
+                    Email = "demopm@email.com";
+                    Password = "eJ0X-a7U2";
                     break;
                 case "Developer":
-                    Email = "developer@email.com";
-                    Password = "Mcclain1!";
+                    Email = "demodev@email.com";
+                    Password = "eJ0X-a7U2";
                     break;
                 case "Submitter":
-                    Email = "submitter@email.com";
-                    Password = "Mcclain1!";
+                    Email = "demosubm@email.com";
+                    Password = "eJ0X-a7U2";
                     break;
                 default:
-                    Email = "submitter@email.com";
-                    Password = "Mcclain1!";
+                    Email = "demosubm@email.com";
+                    Password = "eJ0X-a7U2";
                     break;
             }
             var result = await SignInManager.PasswordSignInAsync(Email, Password, false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("UserPage", "Home");
+                    return RedirectToAction("Index", "Admin");
                 //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -446,7 +446,7 @@ namespace BugTrackerTest.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

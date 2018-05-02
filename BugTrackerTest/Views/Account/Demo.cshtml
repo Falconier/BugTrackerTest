@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -32,51 +32,40 @@
     <![endif]-->
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="~/Assets/dist/css/AlterAccess.css" rel="stylesheet" />
 </head>
-<title>JEBBugTracker | Login</title>
+<title>JEBBugTracker | Demo Login</title>
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
             <p><b>Bug</b>Tracker</p>
         </div>
         <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <form action="@Url.Action("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl })" method="post">
-                @Html.AntiForgeryToken()
-                <div class="form-group has-feedback">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.TextBoxFor(m => m.Email, new { @type = "email", @class = "form-control", @placeholder = "Email" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    @*<div class="col-xs-8">
-                            <div class="checkbox icheck">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
-                            </div>
-                        </div>*@
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-success btn-block btn-flat">Sign In</button>
-                    </div>
-                    <div class="col-xs-8">
-                        <p class="text-right">
-                            @Html.ActionLink("Register as a new user", "Register", new { @style = "float:right" })
-                        </p>
-                        <p class="text-right">
-                            @Html.ActionLink("Demo Accounts", "Demo", new { @style = "float:right" })
-                        </p>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
+        <div class="login-box-body text-center">
+            <p class="login-box-msg">
+                Choose a role start your session
+            </p>
+
+            <p>
+                @Html.ActionLink("Admin Demo", "DemoLogin", new { returnUrl = ViewBag.ReturnUrl, type = "Admin" }, new { @class = "outline outline-primary" })
+            </p>
+            <p>
+                @Html.ActionLink("Project Manager Demo", "DemoLogin", new { ReturnUrl = ViewBag.ReturnUrl, type = "ProjectManager" }, new { @class = "outline outline-primary" })
+            </p>
+            <p>
+                @Html.ActionLink("Developer Demo", "DemoLogin", new { ReturnUrl = ViewBag.ReturnUrl, type = "Developer" }, new { @class = "outline outline-primary" })
+            </p>
+            <p>
+                @Html.ActionLink("Submitter Demo", "DemoLogin", new { ReturnUrl = ViewBag.ReturnUrl, type = "Submitter" }, new { @class = "outline outline-primary" })
+            </p>
+            <hr />
+            <p class="text-center">
+                @Html.ActionLink("Register as a new user", "Register", new { @style = "float:right" })
+            </p>
+            <p class="text-center">
+                @Html.ActionLink("Login", "Login", new { @style = "float:right" })
+            </p>
+
         </div>
         <!-- /.login-box-body -->
     </div>

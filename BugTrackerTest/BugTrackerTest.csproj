@@ -7544,6 +7544,7 @@
     <Content Include="Views\Home\PMDashboard.cshtml" />
     <Content Include="Views\Projects\AllProjects.cshtml" />
     <Content Include="Views\Tickets\UrgentTickets.cshtml" />
+    <Content Include="Views\Account\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

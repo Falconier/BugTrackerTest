@@ -104,7 +104,7 @@
                                     <td>@mod.Project.Name</td>
 
                                     <td>
-                                        @mod.Project.Description
+                                        @Html.Raw(mod.Project.Description)
                                     </td>
                                     <td>
                                         @if (mod.PManager == null)
