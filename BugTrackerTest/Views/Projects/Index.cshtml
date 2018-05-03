@@ -64,7 +64,7 @@
                                 @mod.PManager.FullName
                             }
                         </td>
-                        <td>@mod.Project.Tickets.Count()</td>
+                        <td>@mod.Project.Tickets.Where(t => !t.isResolved).Count()</td>
 
                         <td class="text-center">
                             <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">

@@ -22,60 +22,45 @@
         </ul>
     }
 *@
+<div class="col-md-12">
+    <div class="box no-padding">
+        <div class="box-header">
+            <h3 class="box-title">Manage Users</h3>
+        </div>
 
-<div class="box no-padding">
-    <div class="box-header">
-        <h3 class="box-title">System Users</h3>
-    </div>
-    @*
-    <ul class="users-list clearfix">
-        @foreach (var mod in Model.Users)
-        {
-            
-            <li>
-                
-                @if (mod.Email == "admin@email.com" || mod.Email == "jbullin.engstudio@icloud.com")
+        <div class="box-body">
+            <table id="userTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Locked Out?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @if (user.LockoutEnabled)
                 {
-                    <p class="text-black">-@mod.FullName-</p>
-                }
-                else
-                {
-                    <a class="users-list-name" href="#">@Html.ActionLink(mod.FullName, "EditUser", new { id = mod.Id })</a>
-                }
-                
-            </li>
+                    <p class="text-danger">Locked Out</p>
         }
-        @foreach (var role in mod.Roles)
-            {
-                <li>
-                    <img src="dist/img/user1-128x128.jpg" alt="User Image">
-                    <a class="users-list-name" href="#">Alexander Pierce</a>
-                    <span class="users-list-date">Today</span>
-                </li>
-            }
-
-    </ul>
-    <!-- /.users-list -->
-    *@
-
-    <table id="userTable" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                Users
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var user in Model.Users)
-            {
-                
-            }
-        </tbody>
-    </table>
+        else
+        {
+            <p class="text-green">NO</p>
+}
+                    </td>
+                </tr>
+    }
+                </tbody>
+            </table>
+        </div>    </div>
 </div>
 
-
 <div>
-
     <div class="col-md-6">
         <div>
             <div class="box no-padding">
@@ -219,6 +204,16 @@
                     'paging': false,
                     'lengthChange': false,
                     'pageLength': 10,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#userTable').DataTable(
+                {
+                    'paging': true,
+                    'lengthChange': false,
+                    'pageLength': 5,
                     'searching': true,
                     'ordering': true,
                     'info': false,

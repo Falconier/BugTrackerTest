@@ -34,6 +34,12 @@ namespace BugTrackerTest.Controllers
             return View(tickets.ToList());
         }
 
+        public ActionResult ResolvedTickets()
+        {
+            var tickets = db.Tickets.Include(t => t.Priority).Include(t => t.Project).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            return View(tickets.ToList());
+        }
+
         public ActionResult UrgentTickets()
         {
             var tickets = db.Tickets.Include(t => t.Project).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(t => t.Priority.Name.Equals("Urgent"));
@@ -73,24 +79,6 @@ namespace BugTrackerTest.Controllers
             return View(model);
         }
 
-        // GET: Tickets/Create
-        /// <summary>
-        /// Authorized for Submitters, Admin, and Project Managers to create tickets
-        /// </summary>
-        /// <returns>Returns a view</returns>
-        [Authorize(Roles = "Submitter, Admin, Project Manager ")]
-        public ActionResult Create(int pId)
-        {
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
-
-            Ticket tkt = new Ticket()
-            {
-                ProjectId = pId
-            };
-
-            return View(tkt);
-        }
 
         [HttpPost]
         [Authorize]
@@ -108,6 +96,24 @@ namespace BugTrackerTest.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = comment.TicketId });
+        }
+        // GET: Tickets/Create
+        /// <summary>
+        /// Authorized for Submitters, Admin, and Project Managers to create tickets
+        /// </summary>
+        /// <returns>Returns a view</returns>
+        [Authorize(Roles = "Submitter, Admin, Project Manager ")]
+        public ActionResult Create(int pId)
+        {
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+
+            Ticket tkt = new Ticket()
+            {
+                ProjectId = pId
+            };
+
+            return View(tkt);
         }
         // POST: Tickets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -129,7 +135,8 @@ namespace BugTrackerTest.Controllers
                 ticket.TicketStatusId = 1;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToRoute("Projects", new { id = ticket.ProjectId });
+                return RedirectToAction("Details","Projects", new { id = ticket.ProjectId } );
             }
 
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
@@ -156,10 +163,15 @@ namespace BugTrackerTest.Controllers
             {
                 return HttpNotFound();
             }
+            UserRolesHelper helper = new UserRolesHelper();
+
+            var users = helper.UsersInRole("Developer").ToList();
+
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FullName", ticket.AssignedToUserId);
             return View(ticket);
         }
 
@@ -176,20 +188,22 @@ namespace BugTrackerTest.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
+            UserRolesHelper helper = new UserRolesHelper();
+            var users = helper.UsersInRole("Developer").ToList();
             if (!ModelState.IsValid)
             {
                 ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
                 ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
                 ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+                ViewBag.AssignedToUserId = new SelectList(users, "Id", "FullName", ticket.AssignedToUserId);
+                // The above line --- 'db.Users' was 'users'
                 return View(ticket);
             }
 
-
-
-            var helper = new TicketHelper();
-            helper.CreateHistories(ticket);
-
+            var thelper = new TicketHelper();
+            thelper.CreateHistories(ticket);
+            
             db.Entry(ticket).State = EntityState.Modified;
             db.SaveChanges();
             
@@ -276,7 +290,7 @@ namespace BugTrackerTest.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Ticket ticket = db.Tickets.Find(id);
-            db.Tickets.Remove(ticket);
+            db.Tickets.Find(id).isResolved = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

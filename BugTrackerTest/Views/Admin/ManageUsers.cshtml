@@ -1,0 +1,89 @@
+﻿@model BugTrackerTest.Models.AdminIndexViewModel
+
+<title>JEBBugTracker | Manage Users</title>
+
+<div class="col-md-12">
+    <div class="box no-padding">
+        <div class="box-header">
+            <h3 class="box-title">Manage Users</h3>
+        </div>
+
+        <div class="box-body">
+            <table id="userTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Locked Out?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @if (!user.FullName.Contains("Demo"))
+                                {
+                                    @Html.ActionLink(user.FullName, "EditUser", new { id = user.Id })
+                                }
+                                else
+                                {
+                                    <p>@user.FullName</p>
+                                }
+                            </td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.LockoutEnabled)
+                                {
+                                    <p class="text-danger">LOCKED OUT</p>
+                                }
+                                else
+                                {
+                                    <p class="text-green">NO</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable(
+                {
+                    'paging': false,
+                    'lengthChange': false,
+                    'pageLength': 10,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#example2').DataTable(
+                {
+                    'paging': false,
+                    'lengthChange': false,
+                    'pageLength': 10,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#userTable').DataTable(
+                {
+                    'paging': true,
+                    'lengthChange': true,
+                    'pageLength': 25,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+        })
+    </script>
+}

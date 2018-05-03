@@ -20,6 +20,8 @@ namespace BugTrackerTest.Models
 
         public DateTimeOffset? Updated { get; set; }
 
+        public bool isResolved { get; set; }
+
         //Required when seeded
         public int ProjectId { get; set; }
 

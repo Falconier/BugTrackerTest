@@ -8,11 +8,11 @@
             <!-- Dashboard Tab -->
             <li>
                 @* add in If statement *@
-                    <a href="@Url.Action("Index","Admin")">
+                <a href="@Url.Action("Index","Admin")">
 
-                        <i class="fa fa-tachometer"></i>
-                        <span>Dashboard</span>
-                    </a>
+                    <i class="fa fa-tachometer"></i>
+                    <span>Dashboard</span>
+                </a>
 
             </li>
             <!-- Project Tab -->
@@ -60,6 +60,12 @@
             <li><a href="@Url.Action("AllProjects","Projects")"><i class="fa fa-circle-o text-aqua"></i> <span>Projects</span></a></li>
             <li><a href="@Url.Action("AllTickets","Tickets")"><i class="fa fa-circle-o text-yellow"></i> <span>Tickets</span></a></li>
             <li><a href="@Url.Action("UrgentTickets","Tickets")"><i class="fa fa-circle-o text-red"></i> <span>Urgent Tickets</span></a></li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="header">Admin Access</li>
+                <li><a href="@Url.Action("ResolvedTickets", "Tickets")"><i class="fa fa-circle-o text-green"></i><span>Resolved Tickets</span></a></li>
+                <li><a href="@Url.Action("ManageUsers", "Admin")"><i class="fa fa-circle-o text-fuchsia"></i><span>Manage Users</span></a></li>
+            }
         </ul>
     </section>
     <!-- /.sidebar -->

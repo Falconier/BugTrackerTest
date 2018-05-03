@@ -61,6 +61,20 @@ namespace BugTrackerTest.Controllers
 
         }
 
+        [Authorize(Roles= "Admin")]
+        public ActionResult ManageUsers()
+        {
+            //List<AdminIndexViewModel> model = new List<AdminIndexViewModel>();
+            UserRolesHelper usrHlp = new UserRolesHelper();
+            AdminIndexViewModel vm = new AdminIndexViewModel();
+            foreach (var usr in db.Users)
+            {
+                vm.Users = usrHlp.ListAllUsers();
+            }
+            return View(vm);
+
+        }
+
         [Authorize(Roles = "Admin")]
         public ActionResult EditUser(string id)
         {

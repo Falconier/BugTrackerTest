@@ -1,104 +1,85 @@
 ﻿@model BugTrackerTest.Models.Ticket
 
-@{
-    ViewBag.Title = "Delete";
-}
-
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Priorities.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Priorities.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerUserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignedToUserId)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+<div class="box no-padding">
+    <!-- Box Header -->
+    <div class=" box-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="padding-left:15px;">
+                <div class="col-md-4">
+                    <b>Priority: </b>@if (Model.Priority.Name.Equals("Urgent"))
+                    {
+                        <p class="text-bold text-danger">@Model.Priority.Name</p>
+                    }
+                    else if (Model.Priority.Name.Equals("High"))
+                    {
+                        <p class="text-bold text-warning">@Model.Priority.Name</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Priority.Name</p>
+                    }
+                    <b>Status: </b><p>@Model.TicketStatus.Name</p>
+                </div>
+                <div class="col-md-4">
+                    <b>Associated Project: </b><p>@Model.Project.Name</p>
+                    <b>Assigned To: </b>@if (Model.AssignedToUser == null)
+                    {
+                        <p class="text-bold text-danger">Unassigned</p>
+                    }
+                    else
+                    {
+                        <p>@Model.AssignedToUser.FullName</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <b>Ticket Owner: </b>
+                    @if (Model.OwnerUser == null)
+                    {
+                        <p class="text-bold text-danger">SEEDED</p>
+                    }
+                    else
+                    {
+                        <p>@Model.OwnerUser.FullName</p>
+                    }
+                    <b>Created On: </b>
+                    @if (Model.OwnerUser == null)
+                    {
+                        <p class="text-bold text-danger">SEEDED</p>
+                    }
+                    else
+                    {
+                        <b>Created On: </b><p>@Model.Created.ToString("ddd, dd MMM yyy HH:mm")</p>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="padding-left:15px;">
+                <div class="col-md-12">
+                    <b>Description: </b>
+                    <p>@Html.Raw(Model.Description)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center text-bold text-danger">
+        ARE YOU SURE YOU WANT TO DELETE THIS TICKET?
+    </h3>
+
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color text-center" style="padding-bottom: 15px;">
+                <input type="submit" value="DELETE" class="btn btn-danger" />
+            </div>
+        }
+    </div>
 </div>

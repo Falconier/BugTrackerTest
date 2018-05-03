@@ -5,7 +5,7 @@
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">
-            All Tickets
+            All Resolved Tickets
         </h3>
     </div>
     <!-- /.box-header -->
@@ -29,7 +29,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    if (!item.isResolved)
+                    if (item.isResolved)
                     {
                         <tr>
                             <td class="text-center">

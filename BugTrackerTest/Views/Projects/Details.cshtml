@@ -10,7 +10,7 @@
     <div class="box no-padding">
         <div class="box-header">
             <h3>@Model.Name</h3>
-            
+
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -19,13 +19,13 @@
                         <b>Created On: </b>
                         <p>@Model.Created.ToString("ddd, dd MMM yyy HH:mm")</p>
                         <b>Number of Tickets: </b>
-                        @if (Model.Tickets.Count == 0)
+                        @if (Model.Tickets.Count() == 0)
                         {
                             <p class="text-warning">No Tickets</p>
                         }
                         else
                         {
-                            <p>@Model.Tickets.Count</p>
+                            <p>@Model.Tickets.Where(t => !t.isResolved).Count()</p>
                         }
                     </div>
                     <div class="col-md-8">
@@ -37,7 +37,7 @@
         </div>
 
     </div>
-    
+
 </div>
 
 
@@ -69,55 +69,58 @@
                 <tbody>
                     @foreach (var mod in Model.Tickets)
                     {
+                        if (!mod.isResolved)
+                        {
 
-                        <tr>
-                            <td class="text-center">
-                                @if (mod.Priority.Name.Equals("High"))
-                                {<span class="label label-warning">@mod.Priority.Name</span>}
-                            else if (mod.Priority.Name.Equals("Medium"))
-                            { <span class="label label-primary">@mod.Priority.Name</span>}
-                        else if (mod.Priority.Name.Equals("Low"))
-                        { <span class="label label-success">@mod.Priority.Name</span>}
-                    else if (mod.Priority.Name.Equals("Urgent"))
-                    { <span class="label label-danger">@mod.Priority.Name</span>}
-                else
-                { @mod.Priority.Name}
+                            <tr>
+                                <td class="text-center">
+                                    @if (mod.Priority.Name.Equals("High"))
+                                    {<span class="label label-warning">@mod.Priority.Name</span>}
+                                else if (mod.Priority.Name.Equals("Medium"))
+                                { <span class="label label-primary">@mod.Priority.Name</span>}
+                            else if (mod.Priority.Name.Equals("Low"))
+                            { <span class="label label-success">@mod.Priority.Name</span>}
+                        else if (mod.Priority.Name.Equals("Urgent"))
+                        { <span class="label label-danger">@mod.Priority.Name</span>}
+                    else
+                    { @mod.Priority.Name}
 
-                            </td>
-                            <td>@mod.Title</td>
-                            <td>
-                                @Html.Raw(mod.Description)
-                            </td>
-                            <td>
-                                @mod.TicketStatus.Name
-                            </td>
-                            <td>
-                                @mod.TicketType.Name
-                            </td>
-                            <td>
-                                @if (mod.OwnerUser == null)
-                                {
-                                    <p>SEEDED</p>
-                                }
-                                else
-                                {
-                                    @mod.OwnerUser.FullName
-                                }
-                            </td>
-                            <td class="text-center">
-                                <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
+                                </td>
+                                <td>@mod.Title</td>
+                                <td>
+                                    @Html.Raw(mod.Description)
+                                </td>
+                                <td>
+                                    @mod.TicketStatus.Name
+                                </td>
+                                <td>
+                                    @mod.TicketType.Name
+                                </td>
+                                <td>
+                                    @if (mod.OwnerUser == null)
+                                    {
+                                        <p>SEEDED</p>
+                                    }
+                                    else
+                                    {
+                                        @mod.OwnerUser.FullName
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
 
-                                <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
-                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                {
-                                    <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
-                                }
-                            </td>
-                        </tr>
+                                    <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                    {
+                                        <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
-        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+            @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
         }
         else
         {
@@ -138,7 +141,7 @@
                 'searching': true,
                 'ordering': true,
                 'info': false,
-                
+
                 @*'columnDefs': [{ "width": "50px", "targets": 0 }, { 'width': '75px', 'targets': 1 }, { 'width': '125px', 'targets': 6 }, { "autoWidth": true, "targets": 2 }, { "autoWidth": true, "targets": 3 }, { "autoWidth": true, "targets": 4 }, { "autoWidth": true, "targets": 5 }]
                 'columnDefs': [{ 'width': '125px', 'targets': 6 }],*@
                 'autoWidth': true
