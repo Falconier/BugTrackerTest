@@ -1,15 +1,16 @@
-﻿<!-- localhost:_____/Admin/Index -->
-@model BugTrackerTest.Models.ViewModels.ProjectManagerViewModel
+﻿<!-- localhost:_____/PMDashboard/Index -->
+@model BugTrackerTest.Models.ViewModels.DevViewModel
 <title>JEBBugTracker | Dashboard</title>
 <h2>Dashboard</h2>
 
 <div>
+    <!-- Projects List -->
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div>
                 <div class="box no-padding">
                     <div class="box-header">
-                        <h3 class=" box-title">My Projects</h3>   
+                        <h3 class=" box-title">My Projects</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -31,7 +32,7 @@
                                                 @mod.Name
                                             </td>
                                             <td>
-                                                @mod.Description
+                                                @Html.Raw(mod.Description)
                                             </td>
                                             <td class="text-center">
                                                 <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Id })">
@@ -51,113 +52,148 @@
                     <!-- /.box-body -->
                 </div>
             </div>
-
-
-
-            <div class="col-md-6">
-
-                <div>
-                    <div class="box no-padding">
-                        <div class="box-header">
-                            <h3 class="box-title">Tickets</h3>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            @if (Model.Projects != null)
-                            {
-                                <table id="example2" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Priority</th>
-                                            <th>Title</th>
-                                            <th>Project</th>
-                                            <th>Status</th>
-                                            <th>Type</th>
-
-                                            <th>Details</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var mod in Model.Tickets)
-                                        {
-
-                                            <tr>
-                                                <td>
-                                                    @if (mod.Priority.Name.Equals("High"))
-                                                    {<span class="label label-warning">@mod.Priority.Name</span>}
-                                                else if (mod.Priority.Name.Equals("Medium"))
-                                                { <span class="label label-primary">@mod.Priority.Name</span>}
-                                            else if (mod.Priority.Name.Equals("Low"))
-                                            { <span class="label label-success">@mod.Priority.Name</span>}
-                                        else if (mod.Priority.Name.Equals("Urgent"))
-                                        { <span class="label label-danger">@mod.Priority.Name</span>}
-                                    else
-                                    { @mod.Priority.Name}
-
-                                                </td>
-                                                <td>
-                                                    @mod.Title
-                                                </td>
-                                                <td>
-                                                    @mod.Project
-                                                </td>
-                                                <td>
-                                                    @mod.TicketStatus.Name
-                                                </td>
-                                                <td>
-                                                    @mod.TicketType.Name
-                                                </td>
-
-                                                <td class="text-center"><a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                            else
-                            {
-                                <p class="text-center text-bold text-black">No ticket information avalible.</p>
-                            }
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
-</div>
-    @section Scripts{
 
-        <script>
-            $(function () {
-                $('#example1').DataTable(
-                    {
-                        'paging': false,
-                        'lengthChange': false,
-                        'pageLength': 10,
-                        'searching': true,
-                        'ordering': true,
-                        'info': false,
-                        'autoWidth': true
-                    })
-                $('#example2').DataTable(
-                    {
-                        'paging': false,
-                        'lengthChange': false,
-                        'pageLength': 10,
-                        'searching': true,
-                        'ordering': true,
-                        'info': false,
-                        'autoWidth': true
-                    })
-            })
-        </script>
-    }
-    <!-- /.box-body
-    <div class="box-footer text-center">
-        <a href="javascript:void(0)" class="uppercase">View All Users</a>
+    <!-- Tickets List -->
+    <div class="row">
+        <div class="col-md-12">
+
+            <div>
+                <div class="box no-padding">
+                    <div class="box-header">
+                        <h3 class="box-title">Newest Tickets</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (Model.Projects != null)
+                        {
+                            <table id="example2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Priority</th>
+                                        <th>Title</th>
+                                        <th>Project</th>
+                                        <th>Status</th>
+                                        <th>Type</th>
+                                        <th>Assigned To..</th>
+                                        <th>Details</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var mod in Model.Tickets)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @if (mod.Priority.Name.Equals("High"))
+                                                {<span class="label label-warning">@mod.Priority.Name</span>}
+                                            else if (mod.Priority.Name.Equals("Medium"))
+                                            { <span class="label label-primary">@mod.Priority.Name</span>}
+                                        else if (mod.Priority.Name.Equals("Low"))
+                                        { <span class="label label-success">@mod.Priority.Name</span>}
+                                    else if (mod.Priority.Name.Equals("Urgent"))
+                                    { <span class="label label-danger">@mod.Priority.Name</span>}
+                                else
+                                { @mod.Priority.Name}
+
+                                            </td>
+                                            <td>
+                                                @mod.Title
+                                            </td>
+                                            <td>
+                                                @mod.Project.Name
+                                            </td>
+                                            <td>
+                                                @mod.TicketStatus.Name
+                                            </td>
+                                            <td>
+                                                @mod.TicketType.Name
+                                            </td>
+                                            <td class="text-center">
+                                                @if (mod.AssignedToUserId == null)
+                                                {
+                                                    if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                    {
+                                                        <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = mod.Id })">Assign Ticket</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @mod.AssignedToUser.FullName
+                                                }
+                                            </td>
+
+                                            <td class="text-center">
+                                                <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })">
+                                                    <i class="fa fa-info"></i>
+                                                </a>
+
+                                                <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+
+
+
+                                                <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+
+                                                @*<a class="outline outline-danger">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>*@
+                                                @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p class="text-center text-bold text-black">No ticket information avalible.</p>
+                        }
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
     </div>
-        -->
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('#example1').DataTable(
+                {
+                    'paging': false,
+                    'lengthChange': false,
+                    'pageLength': 10,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+            $('#example2').DataTable(
+                {
+                    'paging': false,
+                    'lengthChange': false,
+                    'pageLength': 10,
+                    'searching': true,
+                    'ordering': true,
+                    'info': false,
+                    'autoWidth': true
+                })
+        })
+    </script>
+}
+<!-- /.box-body
+<div class="box-footer text-center">
+    <a href="javascript:void(0)" class="uppercase">View All Users</a>
+</div>
+    -->
