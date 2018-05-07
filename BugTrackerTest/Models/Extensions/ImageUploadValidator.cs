@@ -7,26 +7,34 @@ using System.Web;
 
 namespace BugTrackerTest.Models.Extensions
 {
-    public static class ImageUploadValidator
+    public static class FileUploadValidator
     {
-        public static bool IsWebFriendlyImage(HttpPostedFileBase file)
+        public static bool IsWebFriendlyFile(HttpPostedFileBase file)
         {
             if (file == null)
                 return false;
             if (file.ContentLength > 2 * 1024 * 1024 || file.ContentLength < 1024)
                 return false;
-
-            try
+            string fileExt = VirtualPathUtility.GetExtension(file.FileName).ToLower();
+            if(fileExt == ".pdf" || fileExt == ".doc" || fileExt == ".docx" || fileExt == "xls" || fileExt == ".jpg" || fileExt == ".png" || fileExt == ".gif" || fileExt == ".bmp")
             {
-                using (var img = Image.FromStream(file.InputStream))
-                {
-                    return ImageFormat.Jpeg.Equals(img.RawFormat) || ImageFormat.Png.Equals(img.RawFormat) || ImageFormat.Gif.Equals(img.RawFormat);
-                }
+                return true;
             }
-            catch
+            else
             {
                 return false;
             }
+            //try
+            //{
+            //    using (var upload = Image.FromStream(file.InputStream))
+            //    {
+            //        return ImageFormat.Jpeg.Equals(upload.RawFormat) || ImageFormat.Png.Equals(upload.RawFormat) || ImageFormat.Gif.Equals(upload.RawFormat) ||;
+            //    }
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
         }
     }
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BugTrackerTest.Models;
+using BugTrackerTest.Models.Extensions;
 using Microsoft.AspNet.Identity;
 
 namespace BugTrackerTest.Controllers
@@ -73,6 +75,10 @@ namespace BugTrackerTest.Controllers
                 Comment = new TicketComment()
                 {
                     TicketId = ticket.Id
+                },
+                Attachment = new TicketAttachment()
+                {
+                    TicketId = ticket.Id
                 }
             };
 
@@ -96,6 +102,25 @@ namespace BugTrackerTest.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = comment.TicketId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddAttachments(TicketAttachment attachment, HttpPostedFileBase file)
+        {
+            if (FileUploadValidator.IsWebFriendlyFile(file))
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                file.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                attachment.FileUrl = "/Uploads/" + fileName;
+            }
+            string UID = User.Identity.GetUserId();
+            attachment.UserId = UID;
+            attachment.Created = DateTimeOffset.Now;
+            db.TicketAttachments.Add(attachment);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = attachment.TicketId });
         }
         // GET: Tickets/Create
         /// <summary>

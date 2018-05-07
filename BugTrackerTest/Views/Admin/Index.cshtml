@@ -39,25 +39,26 @@
                 </thead>
                 <tbody>
                     @foreach (var user in Model.Users)
-            {
-                <tr>
-                    <td>@user.FullName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        @if (user.LockoutEnabled)
-                {
-                    <p class="text-danger">Locked Out</p>
-        }
-        else
-        {
-            <p class="text-green">NO</p>
-}
-                    </td>
-                </tr>
-    }
+                    {
+                        <tr>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.LockoutEnabled)
+                                {
+                                    <p class="text-danger">Locked Out</p>
+                                }
+                                else
+                                {
+                                    <p class="text-green">NO</p>
+                                }
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-        </div>    </div>
+        </div>
+    </div>
 </div>
 
 <div>

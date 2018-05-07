@@ -22,7 +22,7 @@
                     {
                         <tr>
                             <td>
-                                @if (!user.FullName.Contains("Demo"))
+                                @if (!(user.FullName.Contains("Demo") ||user.FullName.Contains("Falconier")))
                                 {
                                     @Html.ActionLink(user.FullName, "EditUser", new { id = user.Id })
                                 }
