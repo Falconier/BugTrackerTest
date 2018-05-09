@@ -167,7 +167,7 @@ namespace BugTrackerTest.Controllers
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 //return RedirectToRoute("Projects", new { id = ticket.ProjectId });
-                return RedirectToAction("Details","Projects", new { id = ticket.ProjectId } );
+                return RedirectToAction("Details", "Projects", new { id = ticket.ProjectId });
             }
 
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
@@ -234,10 +234,10 @@ namespace BugTrackerTest.Controllers
 
             var thelper = new TicketHelper();
             thelper.CreateHistories(ticket);
-            
+
             db.Entry(ticket).State = EntityState.Modified;
             db.SaveChanges();
-            
+
             return RedirectToAction("Details", new { id = ticket.Id });
         }
 
@@ -261,7 +261,7 @@ namespace BugTrackerTest.Controllers
 
             var ticket = db.Tickets.Find(model.Id);
             ticket.AssignedToUserId = model.AssignedToUserId;
-
+            ticket.TicketStatusId = 2;
             db.SaveChanges();
 
             var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
@@ -323,7 +323,7 @@ namespace BugTrackerTest.Controllers
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Find(id).isResolved = true;
             db.SaveChanges();
-            return RedirectToAction("Details","Projects", new { id = ticket.ProjectId });
+            return RedirectToAction("Details", "Projects", new { id = ticket.ProjectId });
         }
 
         protected override void Dispose(bool disposing)
