@@ -1,6 +1,6 @@
 ﻿<!-- localhost:_____/Projects/Index -->
 @model IEnumerable<BugTrackerTest.Models.ProjectsViewModel>
-
+@using Microsoft.AspNet.Identity
 
 
 @*@foreach (var mod in Model.Projects)
@@ -45,34 +45,73 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var mod in Model)
+                @if (!User.IsInRole("Developer"))
                 {
+                    foreach (var mod in Model)
+                    {
+                        if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
+                        {
+                            <!-- Admin's/All Projects -->
+                            <tr>
+                                <td>@mod.Project.Name</td>
+                                <td>
+                                    @Html.Raw(mod.Project.Description)
+                                </td>
+                                <td>
+                                    @if (mod.PManager == null)
+                                    {
+                                        <!-- not working correctly -->
+                                        <p>No Manager Assigned</p>
+                                    }
+                                    else
+                                    {
+                                        @mod.PManager.FullName
+                                    }
+                                </td>
+                                <td>@mod.Project.Tickets.Where(t => !t.isResolved).Count()</td>
 
-                    <tr>
-                        <td>@mod.Project.Name</td>
-                        <td>
-                            @Html.Raw(mod.Project.Description)
-                        </td>
-                        <td>
-                            @if (mod.PManager == null)
-                            {
-                                <!-- not working correctly -->
-                                <p>No Manager Assigned</p>
-                            }
-                            else
-                            {
-                                @mod.PManager.FullName
-                            }
-                        </td>
-                        <td>@mod.Project.Tickets.Where(t => !t.isResolved).Count()</td>
+                                <td class="text-center">
+                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
+                                        <i class="fa fa-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
 
-                        <td class="text-center">
-                            <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
-                                <i class="fa fa-info"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        }
+                        if (User.IsInRole("Project Manager") && mod.PManager.Id.Equals(User.Identity.GetUserId()))
+                        {
+                            <!-- PM's Projects-->
+                            <tr>
+                                <td>@mod.Project.Name</td>
+                                <td>
+                                    @Html.Raw(mod.Project.Description)
+                                </td>
+                                <td>
+                                    @if (mod.PManager == null)
+                                    {
+                                        <!-- not working correctly -->
+                                        <p>No Manager Assigned</p>
+                                    }
+                                    else
+                                    {
+                                        @mod.PManager.FullName
+                                    }
+                                </td>
+                                <td>@mod.Project.Tickets.Where(t => !t.isResolved).Count()</td>
+
+                                <td class="text-center">
+                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Project.Id })">
+                                        <i class="fa fa-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
                 }
+                @*else
+                {
+                    foreach(var mod in Model.Where(p => p.Project.Tickets.Where(t => t.AssignedToUserId.Equals(User.Identity.GetUserId()))))
+                }*@
             </tbody>
         </table>
     </div>
