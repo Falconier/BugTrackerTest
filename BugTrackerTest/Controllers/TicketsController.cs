@@ -48,6 +48,12 @@ namespace BugTrackerTest.Controllers
             return View(tickets.ToList());
         }
 
+        public ActionResult UnassignedTickets()
+        {
+            var tickets = db.Tickets.Include(t => t.Priority).Include(t => t.Project).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(t => t.AssignedToUserId == null).Where(t => !t.isResolved);
+            return View(tickets.ToList());
+        }
+
         // GET: Tickets/Details/5
         /// <summary>
         /// Gives a detailed view of a ticket
@@ -288,7 +294,7 @@ namespace BugTrackerTest.Controllers
         /// </summary>
         /// <param name="id">Ticket Id</param>
         /// <returns>Returns a view of ticket</returns>
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -311,13 +317,13 @@ namespace BugTrackerTest.Controllers
         /// <returns>Returns a view</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Find(id).isResolved = true;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details","Projects", new { id = ticket.ProjectId });
         }
 
         protected override void Dispose(bool disposing)

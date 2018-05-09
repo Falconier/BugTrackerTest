@@ -86,9 +86,11 @@ namespace BugTrackerTest.Models
 
             if(editedTicket.AssignedToUserId != currentSDbStateTicket.AssignedToUserId)
             {
+
                 histories.Add(new TicketHistory()
                 {
-                    OldVal = db.Users.Find(currentSDbStateTicket.AssignedToUserId).FirstName,
+
+                    OldVal = (currentSDbStateTicket.AssignedToUser == null) ? "Unassigned" : db.Users.Find(currentSDbStateTicket.AssignedToUserId).FirstName,
                     NewVal = db.Users.Find(editedTicket.AssignedToUserId).FirstName,
                     Property = "Assigned User"
                 });

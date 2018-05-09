@@ -95,6 +95,10 @@
                     <div style="padding-left:15px;">
                         <div class="col-md-10">
                             <input type="submit" value="Save" class="btn btn-default" />
+                            @if (Request.UrlReferrer != null)
+                            {
+                            <button class="btn btn-default" onclick="history.go(-1); return false;" >Cancel</button>
+                            }
                         </div>
                     </div>
                 </div>

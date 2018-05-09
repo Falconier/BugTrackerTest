@@ -107,13 +107,15 @@
                                     }
                                 </td>
                                 <td class="text-center">
-                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
+                                    
+                                        <a class=" outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
 
-                                    <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
-                                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                    {
-                                        <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
-                                    }
+                                        <a class=" outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                        {
+                                            <a class=" outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
+                                        }
+                                    
                                 </td>
                             </tr>
                         }

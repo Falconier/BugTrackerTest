@@ -66,6 +66,11 @@
                 <li><a href="@Url.Action("ResolvedTickets", "Tickets")"><i class="fa fa-circle-o text-green"></i><span>Resolved Tickets</span></a></li>
                 <li><a href="@Url.Action("ManageUsers", "Admin")"><i class="fa fa-circle-o text-fuchsia"></i><span>Manage Users</span></a></li>
             }
+            else if (User.IsInRole("Project Manager"))
+            {
+                <li class="header">Project Manager</li>
+                <li><a href="@Url.Action("UnassignedTickets","Tickets")"><i class="fa fa-circle-o text-fuchsia"></i><span>Unassigned Tickets</span></a></li>
+            }
         </ul>
     </section>
     <!-- /.sidebar -->

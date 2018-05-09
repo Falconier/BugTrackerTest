@@ -1,5 +1,5 @@
 ﻿<!-- localhost:_____/PMDashboard/Index -->
-@model BugTrackerTest.Models.ViewModels.DevViewModel
+@model BugTrackerTest.Models.ViewModels.ProjectManagerViewModel
 <title>JEBBugTracker | Dashboard</title>
 <h2>Dashboard</h2>
 
@@ -21,7 +21,8 @@
                                     <tr>
                                         <th>Project Name</th>
                                         <th>Description</th>
-                                        <th>Details</th>
+                                        <th>Number of Tickets</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,9 +35,15 @@
                                             <td>
                                                 @Html.Raw(mod.Description)
                                             </td>
+                                            <td>
+                                                @mod.Tickets.Where(t => !t.isResolved).Count()
+                                            </td>
                                             <td class="text-center">
                                                 <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Projects", new { id = mod.Id })">
                                                     <i class="fa fa-info"></i>
+                                                </a>
+                                                <a class="outline outline-danger outline-lg" href="@Url.Action("Close", "Projects", new { id = mod.Id })">
+                                                    <i class="fa fa-eject"></i>
                                                 </a>
                                             </td>
                                         </tr>
