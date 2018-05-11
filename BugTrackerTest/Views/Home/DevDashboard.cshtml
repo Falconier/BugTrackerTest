@@ -116,31 +116,18 @@
                                             <td class="text-center">
                                                 @if (mod.AssignedToUserId == null)
                                                 {
-                                                    if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                                    {
-                                                        <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = mod.Id })">Assign Ticket</a>
-                                                    }
+                                                    <p class="text-danger text-bold">Unassigned</p>
                                                 }
                                                 else
                                                 {
                                                     @mod.AssignedToUser.FullName
                                                 }
                                             </td>
-
                                             <td class="text-center">
                                                 <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })">
                                                     <i class="fa fa-info"></i>
                                                 </a>
-
-                                                <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                @*<a class="outline outline-danger">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>*@
-                                                @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                                             </td>
-
                                         </tr>
                                     }
                                 </tbody>

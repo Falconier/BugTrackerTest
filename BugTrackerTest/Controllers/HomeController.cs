@@ -73,7 +73,7 @@ namespace BugTrackerTest.Controllers
             foreach (var tkt in tktHlp.GetAssignedTickets(usrId))
             {
                 dvm.Tickets.Add(tkt);
-                if(dvm.Projects.Contains(tkt.Project))
+                if(!dvm.Projects.Contains(tkt.Project))
                 {
                     dvm.Projects.Add(tkt.Project);
                 }

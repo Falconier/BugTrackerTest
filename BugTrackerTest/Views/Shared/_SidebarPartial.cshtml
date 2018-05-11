@@ -16,44 +16,53 @@
 
             </li>
             <!-- Project Tab -->
-            <li>
-                <a href="@Url.Action("Index","Projects")">
-                    <i class="fa fa-th"></i>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
-                    {
-                        <span>
-                            All Projects
+            @if (!User.IsInRole("Developer"))
+            {
+                <li>
+                    <a href="@Url.Action("Index","Projects")">
+                        <i class="fa fa-th"></i>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
+                        {
+                            <span>
+                                All Projects
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                My Projects
+                            </span>
+                        }
+                        <span class="pull-right-container">
+                            @*<small class="label pull-right bg-green">new</small>*@
                         </span>
-                    }
-                    else
-                    {
-                        <span>
-                            My Projects
-                        </span>
-                    }
-                    <span class="pull-right-container">
-                        @*<small class="label pull-right bg-green">new</small>*@
-                    </span>
-                </a>
-            </li>
+                    </a>
+                </li>
+            }
             <!-- Tickets Tab -->
-            <li>
-                <a href="@Url.Action("Index","Tickets")">
-                    <i class="fa fa-tags"></i>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <span>All Tickets</span>
-                    }
-                    else if (User.IsInRole("Project Manager"))
-                    {
-                        <span>My Team's Tickets</span>
-                    }
-                    else
-                    {
-                        <span>My Tickets</span>
-                    }
-                </a>
-            </li>
+            @if (!User.IsInRole("Developer"))
+            {
+                if (!User.IsInRole("Submitter"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Tickets")">
+                            <i class="fa fa-tags"></i>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <span>All Tickets</span>
+                            }
+                            else if (User.IsInRole("Project Manager"))
+                            {
+                                <span>My Team's Tickets</span>
+                            }
+                            else
+                            {
+                                <span>My Tickets</span>
+                            }
+                        </a>
+                    </li>
+                }
+            }
 
             <li class="header">Collections</li>
             <li><a href="@Url.Action("AllProjects","Projects")"><i class="fa fa-circle-o text-aqua"></i> <span>Projects</span></a></li>

@@ -65,7 +65,7 @@
                 <div class="box no-padding">
                     <div class="box-header">
                         <h3 class="box-title">My Tickets</h3>
-                        @Html.ActionLink("Projects", "Index", "Projects", new { @class = "btn btn-success", @style = "float: right;" })
+                        @*@Html.ActionLink("Projects", "Index", "Projects", new { @class = "btn btn-success", @style = "float: right;" })*@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -117,11 +117,9 @@
                                             <td class="text-center">
                                                 @if (mod.AssignedToUserId == null)
                                                 {
-                                                    if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                                    {
-                                                        <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = mod.Id })">Assign Ticket</a>
+                                                    <p class="text-danger text-bold">Unassigned</p>
                                                     }
-                                                }
+                                                
                                                 else
                                                 {
                                                     @mod.AssignedToUser.FullName
