@@ -30,104 +30,107 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    if (User.IsInRole("Project Manager") && item.Project.Manager.Equals(User.Identity.GetUserId()))
+                    if (!item.isResolved)
                     {
-                        <!-- PM's Urgent Tickets -->
-                        <tr>
-                            <td class="text-center">
-                                <span class="label label-danger">@item.Priority.Name</span>
-                            </td>
-                            <td>
-                                @item.Title
-                            </td>
-                            <td>
-                                @item.Project.Name
-                            </td>
-                            <td>
-                                @item.TicketStatus.Name
-                            </td>
-                            <td>
-                                @item.TicketType.Name
-                            </td>
-                            <td>
-                                @Html.Raw(item.Description)
-                            </td>
-                            <td>
-                                @item.Created.ToString("MM/dd/yyyy")
-                            </td>
-                            <td>
-                                @item.Updated
-                            </td>
-                            <td>
-                                @if (item.OwnerUser == null)
-                                {
-                                    <p class="text-danger">SEEDED</p>
-                                }
-                                else
-                                {
-                                    @item.OwnerUser.FullName
-                                }
-                            </td>
-                            <td>
-                                @if (item.AssignedToUserId == null)
-                                {
-                                    <p class="text-danger">Unassigned</p>
-                                }
-                                else
-                                {
-                                    @item.AssignedToUser.FullName
-                                }
-                            </td>
-                        </tr>
-                    }
-                    if (!User.IsInRole("Project Manager"))
-                    {
-                        <tr>
-                            <td class="text-center">
-                                <span class="label label-danger">@item.Priority.Name</span>
-                            </td>
-                            <td>
-                                @item.Title
-                            </td>
-                            <td>
-                                @item.Project.Name
-                            </td>
-                            <td>
-                                @item.TicketStatus.Name
-                            </td>
-                            <td>
-                                @item.TicketType.Name
-                            </td>
-                            <td>
-                                @Html.Raw(item.Description)
-                            </td>
-                            <td>
-                                @item.Created.ToString("MM/dd/yyyy")
-                            </td>
-                            <td>
-                                @item.Updated
-                            </td>
-                            <td>
-                                @if (item.OwnerUser == null)
-                                {
-                                    <p class="text-danger">SEEDED</p>
-                                }
-                                else
-                                {
-                                    @item.OwnerUser.FullName
-                                }
-                            </td>
-                            <td>
-                                @if (item.AssignedToUserId == null)
-                                {
-                                    <p class="text-danger">Unassigned</p>
-                                }
-                                else
-                                {
-                                    @item.AssignedToUser.FullName
-                                }
-                            </td>
-                        </tr>
+                        if (User.IsInRole("Project Manager") && item.Project.Manager.Equals(User.Identity.GetUserId()))
+                        {
+                            <!-- PM's Urgent Tickets -->
+                            <tr>
+                                <td class="text-center">
+                                    <span class="label label-danger">@item.Priority.Name</span>
+                                </td>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.Project.Name
+                                </td>
+                                <td>
+                                    @item.TicketStatus.Name
+                                </td>
+                                <td>
+                                    @item.TicketType.Name
+                                </td>
+                                <td>
+                                    @Html.Raw(item.Description)
+                                </td>
+                                <td>
+                                    @item.Created.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @item.Updated
+                                </td>
+                                <td>
+                                    @if (item.OwnerUser == null)
+                                    {
+                                        <p class="text-danger">SEEDED</p>
+                                    }
+                                    else
+                                    {
+                                        @item.OwnerUser.FullName
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.AssignedToUserId == null)
+                                    {
+                                        <p class="text-danger">Unassigned</p>
+                                    }
+                                    else
+                                    {
+                                        @item.AssignedToUser.FullName
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        if (!User.IsInRole("Project Manager"))
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <span class="label label-danger">@item.Priority.Name</span>
+                                </td>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.Project.Name
+                                </td>
+                                <td>
+                                    @item.TicketStatus.Name
+                                </td>
+                                <td>
+                                    @item.TicketType.Name
+                                </td>
+                                <td>
+                                    @Html.Raw(item.Description)
+                                </td>
+                                <td>
+                                    @item.Created.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @item.Updated
+                                </td>
+                                <td>
+                                    @if (item.OwnerUser == null)
+                                    {
+                                        <p class="text-danger">SEEDED</p>
+                                    }
+                                    else
+                                    {
+                                        @item.OwnerUser.FullName
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.AssignedToUserId == null)
+                                    {
+                                        <p class="text-danger">Unassigned</p>
+                                    }
+                                    else
+                                    {
+                                        @item.AssignedToUser.FullName
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                 }
             </tbody>

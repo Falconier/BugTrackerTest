@@ -1,9 +1,9 @@
-﻿@model BugTrackerTest.Models.ViewModels.DevViewModel
+﻿@model BugTrackerTest.Models.ViewModels.SubmitterViewModel
 <title>JEBBugTracker | Dashboard</title>
 <h2>Dashboard</h2>
 
 <div>
-    <!-- Projects List -->
+    @*<!-- Projects List -->
     <div class="row">
         <div class="col-md-12">
             <div>
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-    </div>
+    </div>*@
 
     <!-- Tickets List -->
     <div class="row">
@@ -65,6 +65,7 @@
                 <div class="box no-padding">
                     <div class="box-header">
                         <h3 class="box-title">My Tickets</h3>
+                        @Html.ActionLink("Projects", "Index", "Projects", new { @class = "btn btn-success", @style = "float: right;" })
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -131,14 +132,6 @@
                                                 <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })">
                                                     <i class="fa fa-info"></i>
                                                 </a>
-
-                                                <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                @*<a class="outline outline-danger">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>*@
-                                                @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                                             </td>
 
                                         </tr>
@@ -148,7 +141,7 @@
                         }
                         else
                         {
-                            <p class="text-center text-bold text-black">No ticket information avalible.</p>
+                            <p class="text-center text-bold text-black">You haven't submitted any tickets.</p>
                         }
                     </div>
                     <!-- /.box-body -->

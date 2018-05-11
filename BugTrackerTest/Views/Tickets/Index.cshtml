@@ -25,7 +25,6 @@
         }
     </div>
     <!-- /.box-header -->
-    <!-- Admin and PM and Dev Table -->
     <div class="box-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
@@ -246,193 +245,210 @@
                                 </td>
                             </tr>
                         }
-                        if (User.IsInRole("Developer") && item.AssignedToUser.Equals(User.Identity.GetUserId()))
+                        if (User.IsInRole("Developer"))
                         {
                             <!-- Developer's Tickets -->
-                            <tr>
-                                <td class="text-center">
-                                    @if (item.Priority.Name.Equals("High"))
-                                    {
-                                        <span class="label label-warning">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Medium"))
-                                    {
-                                        <span class="label label-primary">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Low"))
-                                    {
-                                        <span class="label label-success">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Urgent"))
-                                    {
-                                        <span class="label label-danger">@item.Priority.Name</span>
-                                    }
-                                    else
-                                    {
-                                        @item.Priority.Name
-                                    }
-                                    @*@Html.DisplayFor(modelItem => item.Priority.Name)*@
-                                </td> <!-- priorities data-->
-                                <td>
-                                    @item.Title
-                                </td>
-                                <td>
-                                    @item.Project.Name
-                                </td>
-                                <td>
-                                    @item.TicketStatus.Name
-                                </td>
-                                <td>
-                                    @item.TicketType.Name
-                                </td>
-                                @*<td>
-                                        @Html.Raw(item.Description)
-                                    </td>*@
-                                <td>
-                                    @*Html.DisplayFor(modelItem => item.Created.ToString("MM/dd/yyyy"))*@
-                                    @item.Created.ToString("MM/dd/yyyy")
-                                </td>
-                                <td>
-                                    @item.Updated
-                                </td>
-                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Developer"))
+                            if (item.AssignedToUserId != null)
+                            {
+                                if (item.AssignedToUser.Equals(User.Identity.GetUserId()))
                                 {
-                                    if (item.OwnerUser == null)
-                                    {
+                                    <tr>
+                                        <td class="text-center">
+                                            @if (item.Priority.Name.Equals("High"))
+                                            {
+                                                <span class="label label-warning">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Medium"))
+                                            {
+                                                <span class="label label-primary">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Low"))
+                                            {
+                                                <span class="label label-success">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Urgent"))
+                                            {
+                                                <span class="label label-danger">@item.Priority.Name</span>
+                                            }
+                                            else
+                                            {
+                                                @item.Priority.Name
+                                            }
+                                            @*@Html.DisplayFor(modelItem => item.Priority.Name)*@
+                                        </td> <!-- priorities data-->
                                         <td>
-                                            <p class="text-danger">SEEDED</p>
+                                            @item.Title
                                         </td>
-                                    }
-                                    else
-                                    {
                                         <td>
-                                            @item.OwnerUser.FullName
+                                            @item.Project.Name
                                         </td>
-                                    }
-                                }
-                                <td class="text-center">
-                                    @if (item.AssignedToUserId == null)
-                                    {
-                                        if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                        <td>
+                                            @item.TicketStatus.Name
+                                        </td>
+                                        <td>
+                                            @item.TicketType.Name
+                                        </td>
+                                        @*<td>
+                                                @Html.Raw(item.Description)
+                                            </td>*@
+                                        <td>
+                                            @*Html.DisplayFor(modelItem => item.Created.ToString("MM/dd/yyyy"))*@
+                                            @item.Created.ToString("MM/dd/yyyy")
+                                        </td>
+                                        <td>
+                                            @item.Updated
+                                        </td>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Developer"))
                                         {
-                                            <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">Assign Ticket</a>
+                                            if (item.OwnerUser == null)
+                                            {
+                                                <td>
+                                                    <p class="text-danger">SEEDED</p>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.OwnerUser.FullName
+                                                </td>
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        @item.AssignedToUser.FullName
-                                    }
-                                </td>
-                                <td class="text-center">
+                                        <td class="text-center">
+                                            @if (item.AssignedToUserId == null)
+                                            {
+                                                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                {
+                                                    <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">Assign Ticket</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @item.AssignedToUser.FullName
+                                            }
+                                        </td>
+                                        <td class="text-center">
 
-                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = item.Id })"><i class="fa fa-info"></i></a>
+                                            <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = item.Id })"><i class="fa fa-info"></i></a>
 
-                                    <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = item.Id })"><i class="fa fa-pencil"></i></a>
+                                            <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = item.Id })"><i class="fa fa-pencil"></i></a>
 
 
 
-                                    <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
+                                            <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
 
-                                    @*<a class="outline outline-danger">
-                                            <i class="fa fa-edit"></i>
-                                        </a>*@
-                                    @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                                </td>
-                            </tr>
+                                            @*<a class="outline outline-danger">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>*@
+                                            @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         }
-                        if (User.IsInRole("Submitter") && item.OwnerUser.Equals(User.Identity.GetUserId()))
+                        if (User.IsInRole("Submitter"))
                         {
-                            <!-- Submitter's Tickets -->
-                            <tr>
-                                <td class="text-center">
-                                    @if (item.Priority.Name.Equals("High"))
-                                    {
-                                        <span class="label label-warning">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Medium"))
-                                    {
-                                        <span class="label label-primary">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Low"))
-                                    {
-                                        <span class="label label-success">@item.Priority.Name</span>
-                                    }
-                                    else if (item.Priority.Name.Equals("Urgent"))
-                                    {
-                                        <span class="label label-danger">@item.Priority.Name</span>
-                                    }
-                                    else
-                                    {
-                                        @item.Priority.Name
-                                    }
-                                    @*@Html.DisplayFor(modelItem => item.Priority.Name)*@
-                                </td> <!-- priorities data-->
-                                <td>
-                                    @item.Title
-                                </td>
-                                <td>
-                                    @item.Project.Name
-                                </td>
-                                <td>
-                                    @item.TicketStatus.Name
-                                </td>
-                                <td>
-                                    @item.TicketType.Name
-                                </td>
-                                @*<td>
-                                        @Html.Raw(item.Description)
-                                    </td>*@
-                                <td>
-                                    @*Html.DisplayFor(modelItem => item.Created.ToString("MM/dd/yyyy"))*@
-                                    @item.Created.ToString("MM/dd/yyyy")
-                                </td>
-                                <td>
-                                    @item.Updated
-                                </td>
-                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Developer"))
+                            if (item.OwnerUserId != null)
+                            {
+                                if (item.OwnerUser.Equals(User.Identity.GetUserId()))
                                 {
-                                    if (item.OwnerUser == null)
-                                    {
+                                    <!-- Submitter's Tickets -->
+                                    <tr>
+                                        <td class="text-center">
+                                            @if (item.Priority.Name.Equals("High"))
+                                            {
+                                                <span class="label label-warning">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Medium"))
+                                            {
+                                                <span class="label label-primary">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Low"))
+                                            {
+                                                <span class="label label-success">@item.Priority.Name</span>
+                                            }
+                                            else if (item.Priority.Name.Equals("Urgent"))
+                                            {
+                                                <span class="label label-danger">@item.Priority.Name</span>
+                                            }
+                                            else
+                                            {
+                                                @item.Priority.Name
+                                            }
+                                            @*@Html.DisplayFor(modelItem => item.Priority.Name)*@
+                                        </td> <!-- priorities data-->
                                         <td>
-                                            <p class="text-danger">SEEDED</p>
+                                            @item.Title
                                         </td>
-                                    }
-                                    else
-                                    {
                                         <td>
-                                            @item.OwnerUser.FullName
+                                            @item.Project.Name
                                         </td>
-                                    }
-                                }
-                                <td class="text-center">
-                                    @if (item.AssignedToUserId == null)
-                                    {
-                                        if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                        <td>
+                                            @item.TicketStatus.Name
+                                        </td>
+                                        <td>
+                                            @item.TicketType.Name
+                                        </td>
+                                        @*<td>
+                                                @Html.Raw(item.Description)
+                                            </td>*@
+                                        <td>
+                                            @*Html.DisplayFor(modelItem => item.Created.ToString("MM/dd/yyyy"))*@
+                                            @item.Created.ToString("MM/dd/yyyy")
+                                        </td>
+                                        <td>
+                                            @item.Updated
+                                        </td>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager") || User.IsInRole("Developer"))
                                         {
-                                            <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">Assign Ticket</a>
+                                            if (item.OwnerUser == null)
+                                            {
+                                                <td>
+                                                    <p class="text-danger">SEEDED</p>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                if (item.OwnerUserId.Equals(User.Identity.GetUserId()))
+                                                {
+                                                    <td class="text-bold text-fuchsia">@item.OwnerUser.FullName</td>
+                                                }
+                                                else
+                                                {
+                                                    @item.OwnerUser.FullName
+                                                }
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        @item.AssignedToUser.FullName
-                                    }
-                                </td>
-                                <td class="text-center">
+                                        <td class="text-center">
+                                            @if (item.AssignedToUserId == null)
+                                            {
+                                                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                                {
+                                                    <a class="outline outline-danger" href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })">Assign Ticket</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @item.AssignedToUser.FullName
+                                            }
+                                        </td>
+                                        <td class="text-center">
 
-                                    <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = item.Id })"><i class="fa fa-info"></i></a>
+                                            <a class="outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = item.Id })"><i class="fa fa-info"></i></a>
 
-                                    <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = item.Id })"><i class="fa fa-pencil"></i></a>
+                                            <a class="outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = item.Id })"><i class="fa fa-pencil"></i></a>
 
 
 
-                                    <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
+                                            <a class="outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
 
-                                    @*<a class="outline outline-danger">
-                                            <i class="fa fa-edit"></i>
-                                        </a>*@
-                                    @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                                </td>
-                            </tr>
+                                            @*<a class="outline outline-danger">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>*@
+                                            @*Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         }
                     }
                 }
@@ -443,7 +459,7 @@
 </div>
 
 @* Remove Admin *@
-@if (User.IsInRole("Admin") || User.IsInRole("Proejct Manager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
+@if (User.IsInRole("Proejct Manager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
 {
     <a class="btn btn-primary btn-lg" href="@Url.Action("AllTickets","Tickets")">Show All Tickets</a>
 }

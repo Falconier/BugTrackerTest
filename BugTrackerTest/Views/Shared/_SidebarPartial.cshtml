@@ -19,7 +19,7 @@
             <li>
                 <a href="@Url.Action("Index","Projects")">
                     <i class="fa fa-th"></i>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("Submitter"))
                     {
                         <span>
                             All Projects
@@ -52,7 +52,6 @@
                     {
                         <span>My Tickets</span>
                     }
-
                 </a>
             </li>
 

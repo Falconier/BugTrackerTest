@@ -18,7 +18,7 @@ namespace BugTrackerTest.Models
 
         public bool IsTicketInProject(int ticketId, int projectId)
         {
-            if(db.Tickets.Find(ticketId).Project.Equals(db.Projects.Find(projectId)))
+            if (db.Tickets.Find(ticketId).Project.Equals(db.Projects.Find(projectId)))
             {
                 return true;
             }
@@ -28,13 +28,74 @@ namespace BugTrackerTest.Models
             }
         }
 
+        public ICollection<Ticket> GetAssignedTickets(string userId)
+        {
+            ICollection<Ticket> tickets = db.Tickets.ToList();
+            tickets.Clear();
+            foreach (var tkt in db.Tickets)
+            {
+                if (tkt.AssignedToUserId != null)
+                {
+                    if (tkt.AssignedToUserId.Equals(userId))
+                    {
+                        tickets.Add(tkt);
+                    }
+                }
+            }
+
+            return tickets.OrderByDescending(t => t.ProjectId).ToList();
+        }
+
+        public ICollection<Project> GetAssignedProjects(ICollection<Ticket> tickets)
+        {
+            ICollection<Project> projects = db.Projects.ToList();
+            projects.Clear();
+
+            foreach( var tkt in tickets)
+            {
+                if(!projects.Contains(tkt.Project))
+                {
+                    projects.Add(tkt.Project);
+                }
+            }
+            return projects;
+        }
+
+        public ICollection<Ticket> GetOwnedTickets(string userId)
+        {
+            ICollection<Ticket> tickets = db.Tickets.ToList();
+            tickets.Clear();
+            foreach (var tkt in db.Tickets)
+            {
+                if(tkt.OwnerUserId != null)
+                {
+                    if(tkt.OwnerUserId.Equals(userId))
+                    {
+                        tickets.Add(tkt);
+                    }
+                }
+            }
+
+            return tickets;
+        }
+
+        /// <summary>
+        /// Returns the Project Id of the project the ticket is on
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns></returns>
+        public int On(int ticketId)
+        {
+            return db.Tickets.Find(ticketId).ProjectId;
+        }
+
         public void CreateHistories(Ticket editedTicket)
         {
             Ticket currentSDbStateTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == editedTicket.Id);
 
-            List<TicketHistory> histories =   new List<TicketHistory>();
+            List<TicketHistory> histories = new List<TicketHistory>();
 
-            if(editedTicket.Title != currentSDbStateTicket.Title)
+            if (editedTicket.Title != currentSDbStateTicket.Title)
             {
                 histories.Add(new TicketHistory()
                 {
@@ -44,7 +105,7 @@ namespace BugTrackerTest.Models
                 });
             }
 
-            if(editedTicket.Description != currentSDbStateTicket.Description)
+            if (editedTicket.Description != currentSDbStateTicket.Description)
             {
                 histories.Add(new TicketHistory()
                 {
@@ -54,7 +115,7 @@ namespace BugTrackerTest.Models
                 });
             }
 
-            if(editedTicket.TicketStatusId != currentSDbStateTicket.TicketStatusId)
+            if (editedTicket.TicketStatusId != currentSDbStateTicket.TicketStatusId)
             {
                 histories.Add(new TicketHistory()
                 {
@@ -64,7 +125,7 @@ namespace BugTrackerTest.Models
                 });
             }
 
-            if(editedTicket.TicketPriorityId != currentSDbStateTicket.TicketPriorityId)
+            if (editedTicket.TicketPriorityId != currentSDbStateTicket.TicketPriorityId)
             {
                 histories.Add(new TicketHistory()
                 {
@@ -74,7 +135,7 @@ namespace BugTrackerTest.Models
                 });
             }
 
-            if(editedTicket.TicketTypeId != currentSDbStateTicket.TicketTypeId)
+            if (editedTicket.TicketTypeId != currentSDbStateTicket.TicketTypeId)
             {
                 histories.Add(new TicketHistory()
                 {
@@ -84,7 +145,7 @@ namespace BugTrackerTest.Models
                 });
             }
 
-            if(editedTicket.AssignedToUserId != currentSDbStateTicket.AssignedToUserId)
+            if (editedTicket.AssignedToUserId != currentSDbStateTicket.AssignedToUserId)
             {
 
                 histories.Add(new TicketHistory()
@@ -98,7 +159,7 @@ namespace BugTrackerTest.Models
 
             string userId = HttpContext.Current.User.Identity.GetUserId();
 
-            for(int i = 0; i < histories.Count; i++)
+            for (int i = 0; i < histories.Count; i++)
             {
                 histories[i].UserId = userId;
                 histories[i].Changed = DateTimeOffset.Now;

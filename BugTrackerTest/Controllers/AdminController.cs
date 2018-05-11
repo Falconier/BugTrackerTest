@@ -29,7 +29,7 @@ namespace BugTrackerTest.Controllers
                 }
                 else if (User.IsInRole("Submitter"))
                 {
-                    return RedirectToAction("SubDashboard", "Home");
+                    return RedirectToAction("SubmitterDashboard", "Home");
                 }
             }
 

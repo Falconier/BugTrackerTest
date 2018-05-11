@@ -218,6 +218,7 @@
     <Compile Include="Models\ViewModels\AdminUserViewModel.cs" />
     <Compile Include="Models\Helpers\ProjectHelper.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels\DevViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\ViewModels\MyProjectsViewModel.cs" />
     <Compile Include="Models\ViewModels\ProjectMangagerViewModel.cs" />
     <Compile Include="Models\ViewModels\ProjectsViewModel.cs" />
+    <Compile Include="Models\ViewModels\SubmitterViewModel.cs" />
     <Compile Include="Models\ViewModels\TicketDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\TicketViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
@@ -7549,6 +7551,7 @@
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Home\DevDashboard.cshtml" />
     <Content Include="Views\Tickets\UnassignedTickets.cshtml" />
+    <Content Include="Views\Home\SubmitterDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

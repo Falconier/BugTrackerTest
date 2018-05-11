@@ -67,7 +67,7 @@ namespace BugTrackerTest.Controllers
         }
 
         // GET: Projects/Details/5
-        [Authorize(Roles = "Admin, Project Manager")]
+        
         public ActionResult Details(int? id)
         {
             if (id == null)

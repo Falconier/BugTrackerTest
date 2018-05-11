@@ -1,11 +1,6 @@
 ﻿<!-- localhost:_____/Projects/Details -->
-@*
-
-    -- add in a list of users on the project
-
-*@
-
 @model BugTrackerTest.Models.Project
+@using Microsoft.AspNet.Identity
 <div>
     <div class="box no-padding">
         <div class="box-header">
@@ -48,7 +43,11 @@
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Tickets</h3>
-        @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+        <!-- if(User.IsInRole("Submitter")) -->
+        @if (!User.IsInRole("Developer"))
+        {
+            @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+        }
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -103,26 +102,39 @@
                                     }
                                     else
                                     {
-                                        @mod.OwnerUser.FullName
+                                        if (mod.OwnerUserId.Equals(User.Identity.GetUserId()))
+                                        {
+                                            <td class="text-bold text-fuchsia">@mod.OwnerUser.FullName</td>
+                                        }
+                                        else
+                                        {
+                                            @mod.OwnerUser.FullName
+                                        }
+
                                     }
                                 </td>
                                 <td class="text-center">
-                                    
-                                        <a class=" outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
 
+                                    <a class=" outline outline-primary outline-lg" href="@Url.Action("Details", "Tickets", new { id = mod.Id })"><i class="fa fa-info"></i></a>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                    {
                                         <a class=" outline outline-warning outline-lg" href="@Url.Action("Edit", "Tickets", new { id = mod.Id })"><i class="fa fa-pencil"></i></a>
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                        {
-                                            <a class=" outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
-                                        }
-                                    
+
+                                        <a class=" outline outline-danger outline-lg" href="@Url.Action("Delete", "Tickets", new { id = mod.Id })"><i class="fa fa-trash-o"></i></a>
+                                    }
+
+
                                 </td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
-            @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+            <!-- if(User.IsInRole("Submitter")) -->
+            if (!User.IsInRole("Developer"))
+            {
+                @Html.ActionLink("Create Ticket", "Create", "Tickets", new { pId = Model.Id }, new { @class = "btn btn-success", @style = "float: right;" })
+            }
         }
         else
         {

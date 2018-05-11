@@ -52,13 +52,64 @@ namespace BugTrackerTest.Controllers
         [Authorize(Roles = "Developer")]
         public ActionResult DevDashboard()
         {
-            return View();
+
+            var usrId = User.Identity.GetUserId();
+            //List<AdminIndexViewModel> model = new List<AdminIndexViewModel>();
+            UserRolesHelper usrHlp = new UserRolesHelper();
+            DevViewModel dvm = new DevViewModel();
+            
+            TicketHelper tktHlp = new TicketHelper();
+            #region a
+            //foreach (var usr in db.Users)
+            //{
+            //    pmvm.Projects = prjHlp.ListUserProjects(usr.i);
+
+            //    pmvm.Tickets = tktHlp.ListAllTickets();
+
+            //    //vm.Projects = prjHlp.ListAllProjects();
+            //    //Model.Add(vm);
+            //}
+            #endregion
+            foreach (var tkt in tktHlp.GetAssignedTickets(usrId))
+            {
+                dvm.Tickets.Add(tkt);
+                if(dvm.Projects.Contains(tkt.Project))
+                {
+                    dvm.Projects.Add(tkt.Project);
+                }
+            }
+            return View(dvm);
         }
 
         [Authorize(Roles = "Submitter")]
         public ActionResult SubmitterDashboard()
         {
-            return View();
+            var usrId = User.Identity.GetUserId();
+            //List<AdminIndexViewModel> model = new List<AdminIndexViewModel>();
+            UserRolesHelper usrHlp = new UserRolesHelper();
+            SubmitterViewModel svm = new SubmitterViewModel();
+            ProjectHelper prjHlp = new ProjectHelper();
+            TicketHelper tktHlp = new TicketHelper();
+            #region a
+            //foreach (var usr in db.Users)
+            //{
+            //    pmvm.Projects = prjHlp.ListUserProjects(usr.i);
+
+            //    pmvm.Tickets = tktHlp.ListAllTickets();
+
+            //    //vm.Projects = prjHlp.ListAllProjects();
+            //    //Model.Add(vm);
+            //}
+            #endregion
+            foreach (var tkt in tktHlp.GetOwnedTickets(usrId))
+            {
+                svm.Tickets.Add(tkt);
+                if (!svm.Projects.Contains(tkt.Project))
+                {
+                    svm.Projects.Add(tkt.Project);
+                }
+            }
+            return View(svm);
         }
 
         public ActionResult JEBBugtracker()
